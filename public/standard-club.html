@@ -1,0 +1,191 @@
+<!---- OLD VERSION OF THE CLUB PAGE (CHESS-CLUB.HTML)-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+    Chess Club
+  </title>
+  <link rel="stylesheet" href="stylesheets/standard-club-visitor-DARK.css">
+  <script src="https://kit.fontawesome.com/186d59e9ab.js" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+  <header>
+    <div class="logo">YouX</div>
+    <div class="left">
+      <button type="button" class="home-button" onclick="window.location.href='home.html'" aria-label="Home">
+        <i class="fas fa-home"></i>
+      </button>
+    </div>
+    <div class="right">
+      <span>
+        <button type="button" class="search-button" onclick="handleSearch()" aria-label="search">
+          <i class="fas fa-search"></i></button>
+        <button type="button" class="user-button" onclick="" aria-label="user"><i class="fas fa-user"></i>
+        </button>
+        <button type="button" class="menu-button" onclick="" aria-label="menu">
+          <i class="fas fa-bars"></i></button>
+      </span>
+    </div>
+
+  </header>
+  <br>
+  <br>
+  <div class="club-container">
+    <img
+      src="https://youx.org.au/asset/Organisation/8456/chess%20club.jpg?thumbnail_width=375&thumbnail_height=375&resize_type=CropToFit"
+      alt="Chessclublogo">
+    <h1 id="clubTitle"> Adelaide University Chess Club</h1>
+  </div>
+
+  <div id="information">
+    <div class="admin-actions">
+      <!-- <button type="button" class="edit-button" onclick="editToggle('clubTitle')"> -->
+      <button type="button" class="edit-button" onclick="editToggle('clubTitle')">
+        <i class="fa-solid fa-pen"></i>
+      </button>
+      <button type="button" class="delete-button">
+        <i class="fa fa-trash" aria-hidden="true"></i>
+      </button>
+    </div>
+    <h3>About us</h3>
+    <p id="about">The Adelaide University Chess Club, or UofAChess for short, has been around in its new form since 2009
+      (and in another, lapsed form for decades), and is host to a fun atmosphere of recreational games of chess and go.
+    </p>
+    <br>
+  </div>
+  <div class="actions">
+    <button type="button" class="join-button">Join Us!</button>
+    <button type="button" class="contact-button">Contact Club</button>
+  </div>
+
+  <!-- Latest Updates -->
+  <br>
+  <h3 id="updates-title">Latest Updates</h3>
+  <div class="updates-container">
+    <div class="update">
+      <h4 id="post-title">Title</h4>
+      <p class="timestamp">Posted on <span id="timestamp"></span></p>
+      <p class="Post-content">...</p>
+      <hr>
+    </div>
+    </div>
+
+
+  <h3 id="events-title">Upcoming events</h3>
+  <div class="events-container">
+    <div class="event">
+      <h4>Event Title 1</h4>
+      <p>7.00pm July 10th</p>
+      <p>Event information goes here...</p>
+      <hr>
+    </div>
+
+    <div class="event">
+      <h4>Update Title 2</h4>
+      <p>2.00pm July 21st</p>
+      <p>Event information goes here...</p>
+      <hr>
+    </div>
+  </div>
+
+  <div class="members">
+    <h3 id="members-title">List of club members</h3>
+    <ul id="memberList"></ul>
+  </div>
+
+  <!-- <script>
+    function editToggle(elementId) {
+      const element = document.getElementById(elementId);
+      element.contentEditable = !element.isContentEditable;
+      element.focus();
+    }
+  </script> -->
+  <script>
+    //GET POST FUNCTION FROM DATABASE
+    //client send clubid = 1
+
+ $(document).ready(function() {
+      //using ajax and
+      function GETPosts(clubid) {
+      $.ajax({
+        url: `/posts?clubid=`+clubid,
+        type: 'GET',
+        success: function(response) {
+          console.log('Posts retrieved successfully');
+          displayPosts(response);
+        },
+        error: function(xhr, status, error) {
+          console.log('Error retrieving posts:', error);
+        }
+      });
+    }
+
+    //FUNCTION TO UPDATE POSTS AND DISPLAY IN CONTAINER
+    function displayPosts(posts) {
+      var container = $('.updates-container');
+      container.empty(); // Clear existing posts
+
+      //get latest 4 posts
+      var latestposts = posts.slice(-4);
+      latestposts.reverse();
+
+      latestposts.forEach(function(post) {
+        var updateElement = $('<div class="update"></div>'); //for each update div
+        updateElement.append('<h4 id="post-title">' + post.posttitle + '</h4>'); //Update post title
+        updateElement.append('<p class="timestamp">Posted on <span id="timestamp">' + post.dateandtime + '</span></p>'); //Update timestamp
+        updateElement.append('<p class="Post-content">' + post.content + '</p>'); //Update post content
+        updateElement.append('<hr>');
+        container.append(updateElement);
+      });
+    }
+
+    var clubID = 1; //ClubID of chess club
+    GETPosts(clubID);
+    });
+
+    // function to get data of club members with AJAX
+    function getMembers() {
+      var xhttp = new XMLHttpRequest();
+
+      xhttp.onreadystatechange = function () {
+        if (this.readyState === 4) {
+          if (this.status === 200) {
+            var members = JSON.parse(this.responseText);
+            generateMemberList(members);
+          } else {
+            console.log("Error fetching member data: " + this.status);
+          }
+        }
+      };
+
+      var clubId = "1";
+      var url = "/clubmembers?clubid=" + clubId;
+      xhttp.open("GET", url, true);
+      xhttp.send();
+    }
+
+    // function to generate the list of members
+    function generateMemberList(members) {
+      var listContainer = document.getElementById("memberList");
+      listContainer.innerHTML = ""; // Clear existing list
+
+      members.forEach(function (member) {
+        var fullName = member.firstname + " " + member.lastname;
+        var item = document.createElement("li");
+        item.textContent = fullName;
+        listContainer.appendChild(item);
+      });
+    }
+
+    getMembers();
+  </script>
+
+</body>
+
+
+
+</html>

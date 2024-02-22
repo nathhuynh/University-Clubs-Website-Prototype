@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="eng">
+
+<head>
+  <!--CSS LINK-->
+  <link rel="stylesheet" type="text/css" href="stylesheets/club-feed-dark.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!--JS LINK-->
+  <script src="scripts/contact-us-script.js" defer></script>
+
+  <!--Symbols library-->
+  <script src="https://kit.fontawesome.com/979fc57cca.js" crossorigin="anonymous"></script>
+
+  <meta charset="UTF-8">
+  <title>Web Project - Clubs Feed Page</title>
+
+  <script>
+    // redirect to log in if user hasn't signed in
+    function loginCheck() {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function () {
+        if (this.readyState === 4) {
+          if (this.status === 200) {
+            var response = JSON.parse(this.responseText);
+            var userid = response.userid;
+
+            if (userid === 0) {
+              // show log IN button
+              // hide log out
+              document.getElementById("login-div").style.display = "block";
+              document.getElementById("logout-div").style.display = "none";
+            } else {
+              // reverse
+              document.getElementById("logout-div").style.display = "block";
+              document.getElementById("login-div").style.display = "none";
+            }
+          } else {
+            console.log("Error getting userid: " + this.status);
+          }
+        }
+      };
+      xhttp.open("GET", '/get-userid', true);
+      xhttp.send();
+    }
+    loginCheck();
+  </script>
+</head>
+
+<body>
+  <header>
+    <div class="page-title">
+      <div class="login-div" id="login-div">
+        <div class="login-symbol"><button class="login-button" type="button"
+            onclick="window.location.href='log-in.html'">
+            <i class="fa fa-sign-in" aria-hidden="true"></i>
+          </button>
+          <p id="login-text">Log In</p>
+        </div>
+      </div>
+      <div class="login-div" id="logout-div">
+        <div class="login-symbol"><button class="login-button" type="button" onclick="logout()">
+            <i class="fa fa-sign-out" aria-hidden="true"></i>
+          </button>
+          <p id="logout-text">Log Out</p>
+        </div>
+      </div>
+      <br>
+      <h1>Adelaide University Clubs</h1>
+
+    </div>
+
+    <!---Tab with links to connecting pages-->
+    <nav class="nav-tab">
+      <ul>
+        <li><a class="selected-page" href="home.html">HOME</a></li>
+        <li><a href="about.html" onclick>ABOUT</a></li>
+        <li><a href="find-clubs.html">CLUBS</a></li>
+        <li><a href="club-feed.html">YOUR CLUBS</a></li>
+        <li><a href="profile.html">PROFILE</a></li>
+        <li id="manageusers"><a href="manage-users.html">MANAGE USERS</a></li>
+
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <br>
+    <button type="button" class="new-post" onclick="window.location.href='new-post.html'">NEW POST</button>
+    <button type="button" class="new-event" onclick="window.location.href='new-event.html'">NEW EVENT</button>
+
+    <!----Display clubs a user is apart of-->
+    <div class="user-clubs">
+
+    </div>
+
+
+    <!-------------------------------------------------------------------------------->
+    <!----Display posts from all club a user is apart of----------------------------->
+    <div class="container">
+      <div class="posts">
+        <h3>Recent posts from your clubs</h3>
+        <div class="post-container">
+          <h4 id="Posttitle"><span id="post-club-name"></span>: <span id="post-title"></span></h4>
+          <p class="post-info">Posted on <span id="timestamp"></span></p>
+          <p class="post-text"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-------------------------------------------------------------------------------->
+    <!----Display events from all club a user is apart of------------------------------>
+
+    <div class="container">
+      <div class="events">
+        <h3>Upcoming events from your clubs</h3>
+        <div class="event-container"><!--For now its event-page.html (modify to update depending on the eventID)-->
+          <h4 id="Eventtittle"><a href="event-page.html"><span id="event-club-name"></span> : <span
+                id="event-name"></span></a></h4>
+          <p class="event-info"></p>
+          <p class="event-location"></p>
+          <p class="post-text"></p>
+        </div>
+      </div>
+    </div>
+    <!-------------------------------------------------------------------------------->
+
+  </main>
+
+  <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+  <!---Footer -->
+  <footer>
+    <!----Dark mode toggle-->
+    <!-- <div class="dark-mode">
+            <button type="button" onclick="switchColourMode('stylesheets/club-feed-light.css')">Light mode</button>
+            <button type="button" onclick="switchColourMode('stylesheets/club-feed-dark.css')">Dark mode</button>
+        </div> -->
+
+    <div class="address">
+      <div id="north">
+        <p class="campus">North Terrace Campus</p>
+        <p>Level 4 Hub Central, University of Adelaide</p>
+        <p>08 8313 5401</p>
+      </div>
+
+      <div id="waite">
+        <p class="campus">Waite Campus</p>
+        <p>The Hub, McLeod Building</p>
+        <p>08 8313 5401</p>
+      </div>
+
+      <div id="roseworthy">
+        <p class="campus">Roseworthy Campus</p>
+        <p>Room GO1, College Hall</p>
+        <p>08 8313 5401</p>
+      </div>
+    </div>
+
+    <div class="footer-links">
+      <a href="/contact-us">Contact Us</a>
+      <a href="/terms-conditions">Terms and Conditions</a>
+    </div>
+    <div class="social-links">
+      <a href="https://www.facebook.com/uniofadelaide/"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://twitter.com/UniofAdelaide?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"><i
+          class="fab fa-twitter"></i></a>
+    </div>
+
+
+  </footer>
+  <script>
+
+    //GETS MEMBERS POST FROM DATABASE ('/members-feed')
+
+
+    $(document).ready(function () {
+      // Using AJAX to retrieve events
+      function getMembersFeeds() {
+        $.ajax({
+          url: '/members-feeds',
+          type: 'GET',
+          success: function (response) {
+            console.log('Members FEEDS retrieved successfully');
+            displayMembersFeeds(response);
+          },
+          error: function (xhr, status, error) {
+            console.log('Error retrieving feeds:', error);
+          }
+        });
+      }
+
+      // Function to update events and display in container
+      function displayMembersFeeds(posts) {
+        var container = $('.posts');
+        container.empty(); // Clear existing events
+        var Head = $('<h3>Recent posts from your clubs</h3>'); // Create events heading
+        container.append(Head);
+
+
+
+
+        posts.forEach(function (post) {
+          var allPosts = $('<div class="post-container"></div>');
+
+          var postTitle = $('<h4 id="Posttitle"></h4>');
+          var postClubName = $('<span id="post-club-name"></span>').text(post.clubname);
+          var postTitleText = $('<span id="post-title"></span>').text(post.posttitle);
+          postTitle.append(postClubName, ': ', postTitleText);
+
+          var postedInfo = $('<p class="post-info"></p>');
+          var timestamp = $('<span id="timestamp"></span>').text('Posted on ' + new Date(post.dateandtime).toLocaleString());
+          postedInfo.append(timestamp);
+
+          var postText = $('<p class="post-text"></p>').text(post.content);
+
+
+          allPosts.append(postTitle, postedInfo, postText); // Append title, info, and description to event container
+          container.append(allPosts); // Append event container to the main container
+        });
+      }
+      getMembersFeeds();
+    });
+
+
+    //GET EVENTS FROM DATABASE ('/members-events')
+
+
+    $(document).ready(function () {
+      // Using AJAX to retrieve events
+      function getMembersEvents() {
+        $.ajax({
+          url: '/members-events',
+          type: 'GET',
+          success: function (response) {
+            console.log('Members Events retrieved successfully');
+            displayMembersEvents(response);
+          },
+          error: function (xhr, status, error) {
+            console.log('Error retrieving events:', error);
+          }
+        });
+      }
+
+      // Function to update events and display in container
+      function displayMembersEvents(events) {
+        var container = $('.events');
+        container.empty(); // Clear existing events
+        var Head = $('<h3>Upcoming events from your clubs</h3>'); // Create events heading
+        container.append(Head);
+
+        var latestevents = events.reverse(); //from most 6 most recently added
+
+
+        latestevents.forEach(function (event) {
+          var allEvents = $('<div class="event-container"></div>');
+
+          var Title = $('<h4><a href="event-page.html"></a></h4>');
+          var eventPageLink = event.EventName.replace(/\s+/g, '-') + '.html';
+          Title.find('a').attr('href', eventPageLink).text(event.clubname + ' Club: ' + event.EventName);
+
+          var Time = $('<p class="event-info"></p>');
+          Time.text('WHEN: ' + event.EventTime + ', ' + event.EventDate);
+
+          var Location = $('<p class="event-location"></p>');
+          Location.text('LOCATION: ' + event.EventLocation);
+
+          var Description = $('<p class="post-text"></p>');
+          Description.text(event.Content);
+
+          allEvents.append(Title, Time, Location, Description); // Append title, info, and description to event container
+          container.append(allEvents); // Append event container to the main container
+        });
+      }
+      getMembersEvents();
+    });
+
+
+
+  </script>
+
+
+
+</body>
+
+</html>

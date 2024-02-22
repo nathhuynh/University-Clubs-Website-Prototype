@@ -1,0 +1,336 @@
+h1 {
+  text-align: center;
+  color: #FACCE7;
+  font-size: 70px;
+
+}
+
+h2 {
+  color: #DFA9B6;
+  font-size: 30px;
+  text-align: left;
+}
+
+body {
+  font-family: sans-serif;
+  text-align: center;
+  font-size: 15px;
+  background-color: black;
+  color: white;
+
+}
+
+.logo {
+  font-family: sans-serif;
+  text-align: center;
+  font-size: 15px;
+  font-size: 50px;
+  font-weight: bold;
+}
+
+/*********** Footer/************/
+footer {
+  position: relative;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: black;
+  color: white;
+  padding: 20px;
+  border-top: 1px solid white;
+  text-align: left;
+}
+
+.campus {
+  text-decoration: underline;
+}
+
+.address {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#north,
+#waite,
+#roseworthy {
+  width: 33.33%;
+}
+
+.social-links {
+  float: right;
+}
+
+.footer-links a {
+  color: #FACCE7;
+}
+
+.social-links a {
+  color: #FACCE7;
+}
+
+/*********** Navigation tab/************/
+
+
+.nav-tab {
+  z-index: 100;
+  /* bring to the front */
+  background-color: black;
+  border-bottom: 2px solid white;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+
+.nav-tab li {
+  float: left;
+  border-right: 2px solid white;
+}
+
+.nav-tab a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none
+}
+
+.nav-tab ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+
+.nav-tab a:hover {
+  background-color: #b8b8b8;
+  color: black;
+}
+
+/** Selected page has white text instead of black **/
+.selected-page {
+  color: #FACCE7 !important;
+}
+
+.left {
+  font-family: sans-serif;
+  font-weight: bold;
+}
+
+.search-button {
+  position: absolute;
+  top: 10px;
+  right: 90px;
+  background-color: #FACCE7;
+  border: none;
+  cursor: pointer;
+}
+
+.user-button {
+  position: absolute;
+  top: 10px;
+  right: 60px;
+  background-color: #FACCE7;
+  border: none;
+  cursor: pointer;
+
+}
+
+.menu-button {
+  position: absolute;
+  top: 10px;
+  right: 30px;
+  background-color: #FACCE7;
+  border: none;
+  cursor: pointer;
+
+
+}
+
+#create-button {
+  padding: 8px 15px;
+  font-size: 16px;
+  display: inline-block;
+  border: none;
+  border-radius: 5px;
+  background-color: #FACCE7;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#create-button:hover {
+  background-color: #b4829f;
+}
+
+p {
+  text-align: left;
+}
+
+/*********** Page title + Login button /************/
+
+.page-title {
+  text-align: left;
+  background-color: black;
+  padding-top: 50px;
+}
+
+#logo-image {
+  float: left;
+  width: 75px;
+  height: auto;
+}
+
+#login-text {
+  font-size: 70%;
+  font-weight: bold;
+  color: white;
+}
+
+.login-div {
+  background-color: black;
+  float: right;
+}
+
+.login-div button {
+  background-color: transparent;
+  color: white;
+  border: none;
+  padding: 0;
+  font-size: 200%;
+  cursor: pointer;
+}
+
+
+#menu {
+  width: 700px;
+  font-size: 16px;
+  color: #333;
+  border: 1px solid #FACCE7;
+  border-radius: 4px;
+  padding: 8px;
+  background-color: #FACCE7;
+}
+
+.image-container {
+  position: relative;
+  overflow: hidden;
+  background-color: black;
+  width: 100%;
+
+}
+
+.image-container #img1 {
+  width: 90%;
+  height: 90%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-right: 20px;
+  margin-left: 20px;
+
+}
+
+.image-container #img2 {
+  width: 45%;
+  height: 45%;
+  margin-top: 15px;
+  margin-bottom: 20px;
+  margin-right: 20px;
+  margin-left: 20px;
+  float: left;
+
+}
+
+.image-container #img3 {
+  width: 45%;
+  height: 45%;
+  margin-top: 15px;
+  margin-bottom: 20px;
+  margin-right: 20px;
+  margin-left: 20px;
+  float: left;
+}
+
+#Art {
+  padding: 2em;
+  background-color: #FACCE7;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px;
+
+  z-index: 999;
+  text-align: left;
+  font-weight: bold;
+  font-size: 30px;
+  color: white;
+}
+
+#Activities {
+  padding: 2em;
+  background-color: #FACCE7;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px;
+  z-index: 999;
+  text-align: left;
+  font-weight: bold;
+  font-size: 30px;
+  color: white;
+
+}
+
+#Volunteering {
+  padding: 2em;
+  background-color: #FACCE7;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px;
+  z-index: 999;
+  text-align: left;
+  font-weight: bold;
+  font-size: 30px;
+  color: white;
+
+}
+
+.dropdown-button {
+  float: right;
+  background-color: #FACCE7;
+  border: none;
+  cursor: pointer;
+  font-size: 25px;
+  color: white;
+}
+
+#clubs-button {
+  background-color: black;
+  border: none;
+  cursor: pointer;
+  font-size: 30px;
+  color: #FACCE7;
+  font-weight: bold;
+  float: center;
+}
+
+.dropdown-content {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: black;
+  border: none;
+}
+
+
+.Club-list li a {
+  display: block;
+  font-size: 20px;
+  margin-bottom: 30px;
+  color: #FACCE7;
+  text-align: left;
+}

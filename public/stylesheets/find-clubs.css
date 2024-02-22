@@ -1,0 +1,223 @@
+h1 {
+  text-align: center;
+  color: #FACCE7;
+  font-size: 70px;
+
+}
+
+h2 {
+  color: #DFA9B6;
+  font-size: 30px;
+  text-align: left;
+}
+
+body {
+  font-family: sans-serif;
+  text-align: center;
+  font-size: 15px;
+
+}
+
+.logo {
+  font-family: sans-serif;
+  text-align: center;
+  font-size: 15px;
+  font-size: 50px;
+  font-weight: bold;
+
+}
+
+header,
+footer {
+  padding: 2em;
+  background-color: #FACCE7;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 5px;
+  z-index: 999;
+  color: white;
+}
+
+.left {
+  font-family: sans-serif;
+  font-weight: bold;
+}
+
+.search-button {
+  position: absolute;
+  top: 10px;
+  right: 90px;
+  background-color: #FACCE7;
+  border: none;
+  cursor: pointer;
+}
+
+.user-button {
+  position: absolute;
+  top: 10px;
+  right: 60px;
+  background-color: #FACCE7;
+  border: none;
+  cursor: pointer;
+
+}
+
+.menu-button {
+  position: absolute;
+  top: 10px;
+  right: 30px;
+  background-color: #FACCE7;
+  border: none;
+  cursor: pointer;
+
+
+}
+
+#create-button {
+  padding: 8px 15px;
+  font-size: 16px;
+  display: inline-block;
+  border: none;
+  border-radius: 5px;
+  background-color: #FACCE7;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#create-button:hover {
+  background-color: #b4829f;
+}
+
+
+p {
+  font-style: italic;
+  text-align: left;
+
+}
+
+#menu {
+  width: 700px;
+  font-size: 16px;
+  color: #333;
+  border: 1px solid #FACCE7;
+  border-radius: 4px;
+  padding: 8px;
+  background-color: #FACCE7;
+}
+
+.image-container {
+  position: relative;
+  overflow: hidden;
+  background-color: #FFE1E8;
+  width: 100%;
+
+}
+
+.image-container #img1 {
+  width: 90%;
+  height: 90%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-right: 20px;
+  margin-left: 20px;
+
+}
+
+.image-container #img2 {
+  width: 45%;
+  height: 45%;
+  margin-top: 15px;
+  margin-bottom: 20px;
+  margin-right: 20px;
+  margin-left: 20px;
+  float: left;
+
+}
+
+.image-container #img3 {
+  width: 45%;
+  height: 45%;
+  margin-top: 15px;
+  margin-bottom: 20px;
+  margin-right: 20px;
+  margin-left: 20px;
+  float: left;
+}
+
+#Art {
+  padding: 2em;
+  background-color: #FACCE7;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px;
+  border: 2px solid white;
+  z-index: 999;
+  text-align: left;
+  font-weight: bold;
+  font-size: 30px;
+  color: white;
+}
+
+#Activities {
+  padding: 2em;
+  background-color: #FACCE7;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px;
+  z-index: 999;
+  text-align: left;
+  font-weight: bold;
+  font-size: 30px;
+  color: white;
+  border: 2px solid white;
+}
+
+#Volunteering {
+  padding: 2em;
+  background-color: #FACCE7;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px;
+  z-index: 999;
+  text-align: left;
+  font-weight: bold;
+  font-size: 30px;
+  color: white;
+  border: 2px solid white;
+}
+
+.dropdown-button {
+  float: right;
+  background-color: #FACCE7;
+  border: none;
+  cursor: pointer;
+  font-size: 25px;
+  color: white;
+}
+
+#clubs-button {
+  background-color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 30px;
+  color: #FACCE7;
+  font-weight: bold;
+  float: center;
+}
+
+.dropdown-content {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: white;
+  border: none;
+}

@@ -1,0 +1,175 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+}
+
+
+/*********** Page title + Login button /************/
+
+.page-title {
+    text-align: left;
+    background-color: black;
+    padding: 50px 0;
+}
+
+#logo-image {
+    float: left;
+    width: 75px;
+    height: auto;
+}
+
+#login-text{
+    font-size:70%;
+    font-weight: bold;
+    color: white;
+}
+
+.login-div {
+    background-color: black;
+    float: right;
+}
+
+.login-div button {
+    background-color: transparent;
+    color: white;
+    border: none;
+    padding: 0;
+    font-size:200%;
+    cursor: pointer;
+}
+
+h1 {
+    margin:10px;
+    color: white;
+}
+
+/*********** Navigation tab/************/
+
+
+.nav-tab {
+    z-index:100; /* bring to the front */
+    background-color: black;
+    border-bottom: 2px solid white;
+    position:fixed;
+    top: 0;
+    width:100%;
+}
+
+
+.nav-tab li {
+    float: left;
+    border-right: 2px solid white;
+}
+
+.nav-tab a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.nav-tab ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+}
+
+.nav-tab a:hover {
+    background-color: #b8b8b8;
+    color: black;
+}
+
+/** Selected page has white text instead of black **/
+.selected-page{
+    color:#FACCE7 !important;
+}
+
+/*********** Banner image + buttons /************/
+
+/* Resizes the image based on the size of the window*/
+.dynamic-image {
+    max-width: 90%;
+    max-height: 600px;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.banner {
+    position: relative;
+    text-align:center;
+}
+
+#previous-image,
+#next-image {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#previous-image {
+    left: 0;
+}
+
+#next-image {
+    right: 0;
+}
+
+.banner button {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.image-buttons {
+    font-size: 200%;
+    color: black;
+}
+
+#welcome {
+    text-align: center;
+    font-size: large;
+}
+
+
+/*********** Footer/************/
+footer {
+    position: relative;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: black;
+    color: white;
+    padding: 20px;
+}
+
+.campus {
+    text-decoration: underline;
+}
+
+.address {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#north,
+#waite,
+#roseworthy {
+    width: 33.33%;
+}
+
+.social-links{
+    float: right;
+}
+
+.footer-links a{
+    color:#FACCE7;
+}
+
+.social-links a{
+    color:#FACCE7;
+}

@@ -1,0 +1,209 @@
+body {
+    font-family: sans-serif;
+    text-align: center;
+    margin: 0;
+}
+
+h2{
+    text-align: center;
+}
+
+/*********** Page title + Login button /************/
+
+.page-title {
+    text-align: left;
+    background-color: black;
+    padding: 50px 0;
+}
+
+#logo-image {
+    float: left;
+    width: 75px;
+    height: auto;
+}
+
+#login-text{
+    font-size:70%;
+    font-weight: bold;
+    color: white;
+}
+
+.login-div {
+    background-color: black;
+    float: right;
+}
+
+.login-div button {
+    background-color: transparent;
+    color: white;
+    border: none;
+    padding: 0;
+    font-size:200%;
+}
+
+h1 {
+    margin:10px;
+    color: white;
+}
+
+
+/*********** Navigation tab/************/
+
+
+.nav-tab {
+    z-index:100; /* bring to the front */
+    background-color: black;
+    border-bottom: 2px solid white;
+    position:fixed;
+    top: 0;
+    width:100%;
+}
+
+
+.nav-tab li {
+    float: left;
+    border-right: 2px solid white;
+}
+
+.nav-tab a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.nav-tab ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+}
+
+.nav-tab a:hover {
+    background-color: #b8b8b8;
+    color: black;
+}
+
+/** Selected page has white text instead of black **/
+.selected-page{
+    color:#FACCE7 !important;
+}
+
+/*********** Footer/************/
+footer {
+    position: relative;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: black;
+    color: white;
+    padding: 20px;
+    text-align: left;
+}
+
+.campus {
+    text-decoration: underline;
+}
+
+.address {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#north,
+#waite,
+#roseworthy {
+    width: 33.33%;
+}
+
+.social-links {
+    float: right;
+}
+
+.footer-links a{
+    color:#FACCE7;
+}
+
+.social-links a{
+    color:#FACCE7;
+}
+
+
+/*********** Contact Form/************/
+.contact-form {
+    display: inline-block
+}
+
+form {
+    width: 40%;
+    float: left;
+    margin: 0 auto;
+    padding: 20px;
+
+}
+
+form h3 {
+    font-size: 24px;
+    margin-bottom: 18px;
+}
+
+form label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+form input[type="text"],
+form input[type="email"],
+form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: white;
+}
+
+form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: white;
+}
+
+form textarea {
+    height: 100px;
+}
+
+form button {
+    padding: 8px 15px;
+    font-size: 16px;
+    display: inline-block;
+    border: none;
+    border-radius: 5px;
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+form button[type="submit"]:hover {
+    background-color: rgb(56, 55, 55);
+}
+
+
+/********** Contact details side bar *********/
+.contact-sidebar {
+    width: 50%;
+    float: right;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+.contact-details {
+    color: black;
+}

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+            <title>
+                    Log-in Page
+            </title>
+
+<link rel="stylesheet" href="stylesheets/log-in-DARK.css">
+
+<script src="https://kit.fontawesome.com/186d59e9ab.js" crossorigin="anonymous"></script>
+<script src="scripts/login.js"></script>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+
+<body>
+    <header>
+        <div class="left">
+            <span class="return-button" onclick="window.history.back()">Back</span>
+        </div>
+        <div class="right">
+            <span>
+
+          <!-- <button type="button" class="search-button" onclick="handleSearch()" aria-label="search"><i class="fas fa-search"></i></button>
+
+        <button type="button" class="user-button" onclick="" aria-label="user"><i class="fas fa-user"></i></button>
+
+        <button type="button" class="menu-button" onclick="" aria-label="menu"><i class="fas fa-bars"></i></button> -->
+    </span>
+    </div>
+    </header>
+
+    <h1>
+        YouX
+    </h1>
+    <br>
+    <div class="icon">
+    <i class="fas fa-user"></i>
+</div>
+    <h2>
+        Login
+    </h2>
+
+<form>
+
+        <br>
+
+            <div>
+                    <label for="username">Username / Uni Email :</label>
+                    <input type="text" id="username" name="username" required >
+            </div>
+             <br>
+        <div>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required >
+            </div>
+            <br>
+             <div class="login">
+                    <button type="button" value="Log In" onclick="login()">Log In</button>
+                    </div>
+             </form>
+             <br>
+            <div class = "google">
+                <div id="g_id_onload"
+                    data-client_id="971995295736-s7h51hv4qrlfl6nah23ltsl5dgdjon6q.apps.googleusercontent.com"
+                    data-context="signin"
+                    data-ux_mode="popup"
+                    data-login_uri="http://localhost:8080/google_login"
+                    data-auto_prompt="false">
+                </div>
+
+                <div class="g_id_signin"
+                    data-type="standard"
+                    data-shape="rectangular"
+                    data-theme="outline"
+                    data-text="signin_with"
+                    data-size="large"
+                    data-logo_alignment="center">
+                </div>
+            </div>
+
+            <p>OR <br> Become a Youxer!</p>
+
+
+            <div class="Register">
+                <button type="button" value="Register" onclick="window.location.href='register.html'">Register</button>
+            </div>
+
+</body>
+</html>

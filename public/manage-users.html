@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="eng">
+
+<head>
+    <title>User Management</title>
+    <!--JS LINK-->
+    <script src="scripts/about-page-script.js" defer></script>
+
+    <!--CSS LINK-->
+    <link rel="stylesheet" type="text/css" href="stylesheets/manage-users-dark.css">
+
+    <!--Symbols library-->
+    <script src="https://kit.fontawesome.com/979fc57cca.js" crossorigin="anonymous"></script>
+
+    <script>
+        var isAdmin;
+
+        // admin check
+        function adminCheck() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState === 4) {
+                    if (this.status === 200) {
+                        isAdmin = JSON.parse(this.responseText);
+
+                        // // testing w/o the details of the current session
+                        // isAdmin = true;
+
+
+                        if (isAdmin === true) {
+                            console.log("The current user is an admin");
+                            document.getElementById("adminElements").style.display = "block";
+                            document.getElementById("noAccess").style.display = "none";
+                        } else {
+                            console.log("The current user is NOT an admin");
+                            document.getElementById("adminElements").style.display = "none";
+                            document.getElementById("noAccess").style.display = "block";
+                            document.getElementById('manageusers').style.display = "none";
+                        }
+                    } else {
+                        console.log("Error checking admin status: " + this.status);
+                    }
+                }
+            };
+            xhttp.open("GET", "/admin-check", true);
+            xhttp.send();
+        }
+
+        adminCheck();
+    </script>
+
+    <script>
+        // redirect to log in if user hasn't signed in
+        function loginCheck() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState === 4) {
+            if (this.status === 200) {
+                var response = JSON.parse(this.responseText);
+                var userid = response.userid;
+
+                if (userid === 0) {
+                    // show log IN button
+                    // hide log out
+                    document.getElementById("login-div").style.display = "block";
+                    document.getElementById("logout-div").style.display = "none";
+                } else {
+                    // reverse
+                    document.getElementById("logout-div").style.display = "block";
+                    document.getElementById("login-div").style.display = "none";
+                }
+            } else {
+                console.log("Error getting userid: " + this.status);
+            }
+            }
+        };
+            xhttp.open("GET", '/get-userid', true);
+            xhttp.send();
+        }
+        loginCheck();
+    </script>
+
+</head>
+
+<body>
+    <header>
+        <div class="page-title">
+            <div class="login-div" id = "login-div">
+                <div class="login-symbol"><button class="login-button" type="button"
+                        onclick="window.location.href='log-in.html'">
+                          <i class="fa fa-sign-in" aria-hidden="true"></i>
+                      </button>
+                      <p id="login-text">Log In</p>
+                  </div>
+              </div>
+              <div class="login-div" id = "logout-div">
+                  <div class="login-symbol"><button class="login-button" type="button"
+                          onclick="logout()">
+                          <i class="fa fa-sign-out" aria-hidden="true"></i>
+                      </button>
+                      <p id="logout-text">Log Out</p>
+                  </div>
+              </div>
+              <br>
+            <h1>Adelaide University Clubs</h1>
+
+        </div>
+
+        <!---Tab with links to connecting pages-->
+        <nav class="nav-tab">
+            <ul>
+                <li><a class="selected-page" href="home.html">HOME</a></li>
+                <li><a href="about.html" onclick>ABOUT</a></li>
+                <li><a href="find-clubs.html">CLUBS</a></li>
+                <li><a href="club-feed.html">YOUR CLUBS</a></li>
+                <li><a href="profile.html">PROFILE</a></li>
+                <li id="manageusers"><a href="manage-users.html">MANAGE USERS</a></li>
+            </ul>
+        </nav>
+
+        <br>
+        <h2>Manage Users</h2>
+
+    </header>
+    <div id="noAccess">Access denied. Need admin permissions!</div>
+    <div class="content" id="adminElements">
+        <div class="search-div">
+            <input type="text" id="search-input" placeholder="Search by name or email">
+        </div>
+        <div class="container">
+            <div id="edit-user-form" style="display: none;">
+                <h4>Edit User</h4>
+                <form>
+                    <label for="first-name">First name:</label>
+                    <input type="text" id="first-name" name="first-name">
+
+                    <label for="last-name">Last name:</label>
+                    <input type="text" id="last-name" name="last-name">
+
+                    <label for="edit-email">Email:</label>
+                    <input type="email" id="edit-email" name="edit-email">
+
+                    <button type="submit">Save</button>
+                    <button type="button" id="cancel-edit" onclick="cancelEdit();">Cancel</button>
+                </form>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Admin</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="user-list">
+                </tbody>
+            </table>
+        </div>
+        <script>
+            var users = [];
+            var userList = document.getElementById("user-list");
+            var searchInput = document.getElementById("search-input");
+
+            // function to get the data of all site users with AJAX
+            function getUsers() {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState === 4) {
+                        if (this.status === 200) {
+                            users = JSON.parse(this.responseText);
+                            filterUsers(); // call function to filter and display users based on search bar input
+                        } else {
+                            console.log("Error fetching user data: " + this.status);
+                        }
+                    }
+                };
+                xhttp.open("GET", "/siteusers", true);
+                xhttp.send();
+            }
+
+            // function to upgrade users to admin status
+            function giveAdminStatus(userEmail) {
+                var data = {
+                    email: userEmail
+                };
+
+                // send the user id with AJAX
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState === 4) {
+                        if (this.status === 200) {
+                            console.log("User upgraded successfully");
+                            // refresh the page
+                            location.reload();
+                        } else {
+                            console.error("Error upgrading user: " + this.status);
+                        }
+                    }
+                };
+
+                xhttp.open("POST", "/giveAdminStatus", true);
+                xhttp.setRequestHeader("Content-Type", "application/json");
+                xhttp.send(JSON.stringify(data));
+            }
+
+            // filters users in the user list based on input
+            function filterUsers() {
+                var searchTerm = searchInput.value.toLowerCase();
+                var filteredUsers = users.filter(function (user) {
+                    var name = (user.firstname + ' ' + user.lastname).toLowerCase();
+                    var email = user.email.toLowerCase();
+                    var type = user.adminclearance.toLowerCase();
+                    return name.includes(searchTerm) || email.includes(searchTerm) || type.includes(searchTerm);
+                });
+
+                // clear the list
+                userList.innerHTML = "";
+
+                // generate filtered rows
+                filteredUsers.forEach(function (user) {
+                    var row = document.createElement("tr");
+                    var nameCell = document.createElement("td");
+                    nameCell.textContent = user.firstname + ' ' + user.lastname;
+                    var emailCell = document.createElement("td");
+                    emailCell.textContent = user.email;
+                    var typeCell = document.createElement("td");
+                    typeCell.textContent = user.adminclearance;
+                    var actionCell = document.createElement("td");
+
+                    // edit button
+                    var editButton = document.createElement("button");
+                    editButton.className = "edit-user-button";
+                    var editIcon = document.createElement("i");
+                    editIcon.className = "fa-solid fa-pen";
+                    editButton.appendChild(editIcon);
+
+                    // delete button
+                    var deleteButton = document.createElement("button");
+                    deleteButton.className = "delete-user-button";
+                    var trashIcon = document.createElement("i");
+                    trashIcon.className = "fa fa-trash";
+                    trashIcon.setAttribute("aria-hidden", "true");
+                    deleteButton.appendChild(trashIcon);
+
+                    // upgrade to admin button
+                    var upgradeButton = document.createElement("button");
+                    upgradeButton.className = "upgrade-user-button";
+                    upgradeButton.innerText = "UPGRADE";
+
+                    // event listener to upgrade user to admin status
+                    upgradeButton.addEventListener("click", function () {
+                        // call the upgrade function
+                        giveAdminStatus(user.email);
+                    });
+
+
+                    // event listeners for the edit and delete buttons
+                    editButton.addEventListener("click", showEditForm);
+                    deleteButton.addEventListener("click", deleteUser);
+
+                    actionCell.appendChild(editButton);
+                    actionCell.appendChild(deleteButton);
+                    actionCell.appendChild(upgradeButton);
+
+                    row.appendChild(nameCell);
+                    row.appendChild(emailCell);
+                    row.appendChild(typeCell);
+                    row.appendChild(actionCell);
+
+                    userList.appendChild(row);
+                });
+            }
+
+            // event listener for input changes in the search input
+            searchInput.addEventListener("input", filterUsers);
+
+            // display all users initiallly
+            getUsers();
+
+            // display edit form to edit a user's information
+            function showEditForm() {
+                var editForm = document.getElementById("edit-user-form");
+                editForm.style.display = "block";
+
+                var row = this.parentNode.parentNode;
+                var name = row.querySelector("td:nth-child(1)").innerText;
+                var email = row.querySelector("td:nth-child(2)").innerText;
+
+                var editFirstNameInput = editForm.querySelector("#first-name");
+                var editLastNameInput = editForm.querySelector("#last-name");
+                var editEmailInput = editForm.querySelector("#edit-email");
+
+                // split the user's name into first/last
+                var nameParts = name.split(" ");
+                var firstName = nameParts[0];
+                var lastName = nameParts[1];
+
+                editFirstNameInput.value = firstName;
+                editLastNameInput.value = lastName;
+                editEmailInput.value = email;
+
+                // event listener
+                editForm.addEventListener("submit", function (event) {
+                    event.preventDefault();
+
+                    var newFirstName = editFirstNameInput.value;
+                    var newLastName = editLastNameInput.value;
+                    var newEmail = editEmailInput.value;
+
+                    // combine the user's new first and last names
+                    var newUsername = newFirstName + " " + newLastName.trim();
+
+                    // update the user's details with AJAX
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = function () {
+                        if (this.readyState === 4) {
+                            if (this.status === 200) {
+                                // update the user details in the table
+                                row.querySelector("td:nth-child(1)").innerText = newUsername;
+                                row.querySelector("td:nth-child(2)").innerText = newEmail;
+                                console.log("User updated");
+                            } else {
+                                console.log("Error updating user details: " + this.status);
+                            }
+                        }
+                    };
+
+                    var url = "/updateuser";
+                    xhttp.open("POST", url, true);
+                    xhttp.setRequestHeader("Content-type", "application/json");
+                    xhttp.send(JSON.stringify({ email: email, newFirstName: newFirstName, newLastName: newLastName, newEmail: newEmail }));
+
+                    // hide the edit form
+                    editForm.style.display = "none";
+                });
+            }
+
+            // delete user from users list
+            function deleteUser() {
+                var confirmation = confirm("Confirm deletion of user account");
+                if (confirmation) {
+                    var row = this.parentNode.parentNode;
+                    var email = row.querySelector("td:nth-child(2)").innerText;
+
+                    // remove the user from the array
+                    users = users.filter(function (user) {
+                        return user.email !== email; // exclude user with matching email from array
+                    });
+
+                    // delete the user from the database with AJAX
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = function () {
+                        if (this.readyState === 4) {
+                            if (this.status === 200) {
+                                row.parentNode.removeChild(row);
+                                console.log("User deleted");
+                            } else {
+                                console.log("Error deleting user: " + this.status);
+                            }
+                        }
+                    };
+
+                    var url = "/deleteuser";
+                    xhttp.open("POST", url, true);
+                    xhttp.setRequestHeader("Content-type", "application/json");
+                    xhttp.send(JSON.stringify({ email: email }));
+                }
+            }
+
+            // hide the edit form
+            function cancelEdit() {
+                var editForm = document.getElementById("edit-user-form");
+                editForm.style.display = "none";
+            }
+
+        </script>
+    </div>
+
+    <br><br><br><br><br><br><br><br><br><br><br><br>
+
+    <!---Footer -->
+    <footer>
+        <!----Dark mode toggle-->
+        <!-- <div class="dark-mode">
+            <button type="button" onclick="switchColourMode('stylesheets/manage-users-light.css')">Light mode</button>
+            <button type="button" onclick="switchColourMode('stylesheets/manage-users-dark.css')">Dark mode</button>
+        </div> -->
+
+        <div class="address">
+            <div id="north">
+                <p class="campus">North Terrace Campus</p>
+                <p>Level 4 Hub Central, University of Adelaide</p>
+                <p>08 8313 5401</p>
+            </div>
+
+            <div id="waite">
+                <p class="campus">Waite Campus</p>
+                <p>The Hub, McLeod Building</p>
+                <p>08 8313 5401</p>
+            </div>
+
+            <div id="roseworthy">
+                <p class="campus">Roseworthy Campus</p>
+                <p>Room GO1, College Hall</p>
+                <p>08 8313 5401</p>
+            </div>
+        </div>
+
+        <div class="footer-links">
+            <a href="/contact-us">Contact Us</a>
+            <a href="/terms-conditions">Terms and Conditions</a>
+        </div>
+        <div class="social-links">
+            <a href="https://www.facebook.com/uniofadelaide/"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://twitter.com/UniofAdelaide?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"><i class="fab fa-twitter"></i></a>
+        </div>
+
+
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,101 @@
+h1{
+    text-align: center;
+    color: #FACCE7 ;
+    font-size: 70px;
+
+}
+
+h2 {
+    text-align: center;
+    font-size: 35px;
+
+  }
+
+
+body {
+    font-family: sans-serif;
+    text-align: center;
+    font-size: 15px;
+    background-color: black;
+    color: white;
+
+}
+
+p{
+    text-align: center;
+    color: #FACCE7 ;
+}
+
+button {
+  padding: 8px 15px;
+  font-size: 16px;
+  display: inline-block;
+  border: none;
+  border-radius: 5px;
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+header, footer {
+    padding: 2em;
+    background-color: #FACCE7;
+    position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 20px;
+      z-index: 999;
+}
+
+.return-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    cursor: pointer;
+
+  }
+
+  .left{
+    font-family: sans-serif;
+    font-weight: bold;
+    color: black;
+  }
+
+  .search-button {
+    position: absolute;
+    top: 10px;
+    right: 150px;
+    background-color: #FACCE7;
+    border: none;
+    cursor: pointer;
+  }
+
+  .user-button{
+    position: absolute;
+    top: 10px;
+    right: 110px;
+    background-color: #FACCE7;
+    border: none;
+    cursor: pointer;
+
+  }
+  .menu-button{
+    position: absolute;
+    top: 10px;
+    right: 70px;
+    background-color: #FACCE7;
+    border: none;
+    cursor: pointer;
+
+  }
+
+  .icon {
+    font-size: 50px;
+  }
+
+.google {
+  display: flex;
+  justify-content: center;
+}

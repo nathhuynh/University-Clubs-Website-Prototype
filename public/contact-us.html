@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="eng">
+
+<head>
+    <!--CSS LINK-->
+    <link rel="stylesheet" type="text/css" href="stylesheets/contact-us-dark.css">
+
+    <!--JS LINK-->
+    <script src="scripts/contact-us-script.js"></script>
+
+    <!--Symbols library-->
+    <script src="https://kit.fontawesome.com/979fc57cca.js" crossorigin="anonymous"></script>
+
+    <meta charset="UTF-8">
+    <title>Web Project - Contact Page</title>
+
+    <script>
+        // redirect to log in if user hasn't signed in
+        function loginCheck() {
+          var xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function () {
+            if (this.readyState === 4) {
+              if (this.status === 200) {
+                var response = JSON.parse(this.responseText);
+                var userid = response.userid;
+
+                if (userid === 0) {
+                    // show log IN button
+                    // hide log out
+                    document.getElementById("login-div").style.display = "block";
+                    document.getElementById("logout-div").style.display = "none";
+                } else {
+                    // reverse
+                    document.getElementById("logout-div").style.display = "block";
+                    document.getElementById("login-div").style.display = "none";
+                }
+              } else {
+                console.log("Error getting userid: " + this.status);
+              }
+            }
+          };
+            xhttp.open("GET", '/get-userid', true);
+            xhttp.send();
+        }
+        loginCheck();
+
+        var isAdmin;
+
+        function adminCheck() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if ((this.readyState === 4) && (this.status === 200)) {
+                        isAdmin = JSON.parse(this.responseText);
+                        if (isAdmin === false) {
+                            document.getElementById("manageusers").style.display = "none";
+                    } else {
+                        console.log("Error checking admin status: " + this.status);
+                    }
+                }
+            };
+            xhttp.open("GET", "/admin-check", true);
+            xhttp.send();
+        }
+
+        adminCheck();
+      </script>
+</head>
+
+<body>
+    <header>
+        <div class="page-title">
+            <div class="login-div" id = "login-div">
+                <div class="login-symbol"><button class="login-button" type="button"
+                        onclick="window.location.href='log-in.html'">
+                        <i class="fa fa-sign-in" aria-hidden="true"></i>
+                    </button>
+                    <p id="login-text">Log In</p>
+                </div>
+            </div>
+            <div class="login-div" id = "logout-div">
+                <div class="login-symbol"><button class="login-button" type="button"
+                        onclick="logout()">
+                        <i class="fa fa-sign-out" aria-hidden="true"></i>
+                    </button>
+                    <p id="logout-text">Log Out</p>
+                </div>
+            </div>
+            <br>
+            <h1>Adelaide University Clubs</h1>
+
+        </div>
+
+        <!---Tab with links to connecting pages-->
+        <nav class="nav-tab">
+            <ul>
+                <li><a class="selected-page" href="home.html">HOME</a></li>
+                <li><a href="about.html" onclick>ABOUT</a></li>
+                <li><a href="find-clubs.html">CLUBS</a></li>
+                <li><a href="club-feed.html">YOUR CLUBS</a></li>
+                <li><a href="profile.html">PROFILE</a></li>
+                <li id="manageusers"><a href="manage-users.html">MANAGE USERS</a></li>
+            </ul>
+        </nav>
+
+        <br>
+
+    </header>
+
+    <h2>Contact Us</h2>
+    <!---Contact Form-->
+    <form class="contact-form" action="#" method="post">
+        <label for="topic">Topic:</label>
+        <select id="topic" name="topic">
+            <!-- Drop down menu options -->
+            <option value="general">General Inquiry</option>
+            <option value="new-club">Request to start a new club</option>
+            <option value="account">Account support</option>
+            <option value="site-feedback">Site feedback/suggestions</option>
+
+        </select>
+        <br>
+
+        <!-- Other boxes in the form -->
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <br>
+
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" required></textarea>
+        <br>
+
+        <button type="button" onclick="window.location.href='/home.html'">Submit</button>
+    </form>
+
+    <!--Contact details sidebar-->
+    <div class="contact-sidebar">
+        <h3>
+            Contact Details
+        </h3>
+        <p>
+            <strong>Technical Support Office:</strong>
+            <a class="contact-details" href="https://goo.gl/maps/tpB5F4VsoGX2bbCE7?coh=178571&entry=tt">Level 4 Hub Central, University of Adelaide</a>
+        </p>
+        <p>
+            <strong>Phone:</strong>
+            <a class="contact-details" href="tel:08 8313 5401">08 8313 5401</a>
+        </p>
+        <p>
+            <strong>Email:</strong>
+            <a class="contact-details" href="mailto:placeholder@email.com.au">placeholder@email.com.au</a>
+        </p>
+    </div>
+
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+    <!---Footer -->
+    <footer>
+        <!----Dark mode toggle-->
+        <!-- <div class="dark-mode">
+            <button type="button" onclick="switchColourMode('stylesheets/contact-us-light.css')">Light mode</button>
+            <button type="button" onclick="switchColourMode('stylesheets/contact-us-dark.css')">Dark mode</button>
+        </div> -->
+
+        <div class="address">
+            <div id="north">
+                <p class="campus">North Terrace Campus</p>
+                <p>Level 4 Hub Central, University of Adelaide</p>
+                <p>08 8313 5401</p>
+            </div>
+
+            <div id="waite">
+                <p class="campus">Waite Campus</p>
+                <p>The Hub, McLeod Building</p>
+                <p>08 8313 5401</p>
+            </div>
+
+            <div id="roseworthy">
+                <p class="campus">Roseworthy Campus</p>
+                <p>Room GO1, College Hall</p>
+                <p>08 8313 5401</p>
+            </div>
+        </div>
+
+        <div class="footer-links">
+            <a href="/contact-us">Contact Us</a>
+            <a href="/terms-conditions">Terms and Conditions</a>
+        </div>
+        <div class="social-links">
+            <a href="https://www.facebook.com/uniofadelaide/"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://twitter.com/UniofAdelaide?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"><i class="fab fa-twitter"></i></a>
+        </div>
+
+
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,260 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    background-color: #FACCE7;
+}
+
+
+/*********** Page title + Login button /************/
+
+.page-title {
+    text-align: left;
+    background-color: black;
+    padding: 50px 0;
+}
+
+#logo-image {
+    float: left;
+    width: 75px;
+    height: auto;
+}
+
+#login-text {
+    font-size: 70%;
+    font-weight: bold;
+    color: white;
+}
+
+.login-div {
+    background-color: black;
+    float: right;
+}
+
+.login-div button {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    font-size: 200%;
+    color: white;
+}
+
+
+h1 {
+    margin:10px;
+    color: white;
+}
+
+/*********** Navigation tab/************/
+
+.nav-tab {
+    z-index: 100;
+    /* bring to the front */
+    background-color: black;
+    border-bottom: 2px solid white;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+
+.nav-tab li {
+    float: left;
+    border-right: 2px solid white;
+}
+
+.nav-tab a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.nav-tab ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+}
+
+.nav-tab a:hover {
+    background-color: #b8b8b8;
+    color: black;
+}
+
+/** Selected page has white text instead of black **/
+.selected-page {
+    color: #FACCE7 !important;
+}
+
+
+/*********** Post and Event Divs ************/
+.posts {
+    width: 45%;
+    float: left;
+    height: 400px;
+    overflow: auto;
+}
+
+
+.posts h3 {
+    text-align: center;
+}
+
+.post-container {
+    padding: 20px;
+    border: 1px solid black;
+}
+
+.events {
+    width: 45%;
+    float: right;
+    height: 400px;
+    overflow: auto;
+    
+}
+
+.events h3 {
+    text-align: center;
+}
+
+.event-container {
+    padding: 20px;
+    border: 1px solid black;
+    
+}
+
+.event-container a {
+    color: black;
+    
+}
+
+
+.container{
+    margin:20px;
+}
+
+
+.new-post {
+    padding: 8px 15px;
+    font-size: 16px;
+    display: inline-block;
+    border: none;
+    border-radius: 5px;
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    margin:10px;
+}
+
+.new-event {
+    padding: 8px 15px;
+    font-size: 16px;
+    display: inline-block;
+    border: none;
+    border-radius: 5px;
+    background-color:black;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    margin:10px;
+    
+}
+
+main .event-info{
+    margin-left: 40px;
+}
+
+.RSVP-button{
+    margin-left: 40px;
+}
+
+/*********** RSVP list /************/
+.members-list-container {
+    border: 2px solid black;
+    padding: 5px;
+    margin-top: 30px;
+    margin-left: 40px;
+    outline: 2px black;
+    background-color: #FACCE7;
+    text-align:center;
+    /* Position the box on the right side */
+    width: 400px; /* Adjust the width as needed */
+     /* Add some space between the box and the rest of the content */
+  }
+  
+  hr {
+    color: black;
+    border: 100%;
+    border: none;
+  border-top: 2px solid black;
+  }
+  
+  .members-list-container ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .members-list-container li {
+    margin-bottom: 5px;
+  }
+
+/*********** Footer/************/
+footer {
+    position: relative;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: black;
+    color: white;
+    padding: 20px;
+}
+
+.campus {
+    text-decoration: underline;
+}
+
+.address {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#north,
+#waite,
+#roseworthy {
+    width: 33.33%;
+}
+
+.social-links {
+    float: right;
+}
+
+.event-title {
+    text-align: center;
+}
+
+.event-details {
+    text-align: center;
+}
+
+.RSVP-button {
+    padding: 8px;
+    color: white;
+    background-color: black;
+    border: 1px solid black;
+}
+
+.RSVP-button:hover {
+    background-color: black;
+    cursor: pointer;
+}
+
+.footer-links a{
+    color:#FACCE7;
+}
+
+.social-links a{
+    color:#FACCE7;
+}

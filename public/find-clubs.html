@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+    Club-list page
+  </title>
+  <link rel="stylesheet" href="stylesheets/find-clubs-dark.css">
+  <script src="https://kit.fontawesome.com/186d59e9ab.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+  <script src="scripts/home-page-script.js" defer></script>
+  <style>
+    #Club-list {
+      list-style-type: none;
+    }
+  </style>
+
+  <script>
+    // redirect to log in if user hasn't signed in
+    function loginCheck() {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function () {
+        if (this.readyState === 4) {
+          if (this.status === 200) {
+            var response = JSON.parse(this.responseText);
+            var userid = response.userid;
+
+            if (userid === 0) {
+              // show log IN button
+              // hide log out
+              document.getElementById("login-div").style.display = "block";
+              document.getElementById("logout-div").style.display = "none";
+            } else {
+              // reverse
+              document.getElementById("logout-div").style.display = "block";
+              document.getElementById("login-div").style.display = "none";
+            }
+          } else {
+            console.log("Error getting userid: " + this.status);
+          }
+        }
+      };
+
+      xhttp.open("GET", '/get-userid', true);
+      xhttp.send();
+    }
+    loginCheck();
+
+    var isAdmin;
+
+    // admin check
+    function adminCheck() {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function () {
+        if (this.readyState === 4) {
+          if (this.status === 200) {
+            isAdmin = JSON.parse(this.responseText);
+
+            // // testing w/o the details of the current session
+            //isAdmin = true;
+
+
+            if (isAdmin === true) {
+              console.log("The current user is an admin");
+              document.getElementById("adminElements").style.display = "block";
+            } else {
+              document.getElementById("manageusers").style.display = "none";
+              console.log("The current user is NOT an admin");
+              document.getElementById("adminElements").style.display = "none";
+            }
+          } else {
+            console.log("Error checking admin status: " + this.status);
+          }
+        }
+      };
+      xhttp.open("GET", "/admin-check", true);
+      xhttp.send();
+    }
+
+    adminCheck();
+  </script>
+
+</head>
+
+
+<body>
+  <header>
+    <div class="page-title">
+      <div class="login-div" id="login-div">
+        <div class="login-symbol"><button class="login-button" type="button"
+            onclick="window.location.href='log-in.html'">
+            <i class="fa fa-sign-in" aria-hidden="true"></i>
+          </button>
+          <p id="login-text">Log In</p>
+        </div>
+      </div>
+      <div class="login-div" id="logout-div">
+        <div class="login-symbol"><button class="login-button" type="button" onclick="logout()">
+            <i class="fa fa-sign-out" aria-hidden="true"></i>
+          </button>
+          <p id="logout-text">Log Out</p>
+        </div>
+      </div>
+      <br>
+    </div>
+    <!---Tab with links to connecting pages-->
+    <nav class="nav-tab">
+      <ul>
+        <li><a class="selected-page" href="home.html">HOME</a></li>
+        <li><a href="about.html" onclick>ABOUT</a></li>
+        <li><a href="find-clubs.html">CLUBS</a></li>
+        <li><a href="club-feed.html">YOUR CLUBS</a></li>
+        <li><a href="profile.html">PROFILE</a></li>
+        <li id="manageusers"><a href="manage-users.html">MANAGE USERS</a></li>
+      </ul>
+    </nav>
+
+    <br>
+    <!-- <div class="logo">YouX</div> -->
+    <div class="left"></div>
+    <div class="right">
+      <span>
+        <button type="button" class="search-button" onclick="handleSearch()" aria-label="search"><i
+            class="fas fa-search"></i></button>
+
+        <button type="button" class="user-button" onclick="window.location.href='log-in.html'" aria-label="user"><i
+            class="fas fa-user"></i></button>
+
+        <button type="button" class="menu-button" onclick="" aria-label="menu"><i class="fas fa-bars"></i></button>
+
+      </span>
+    </div>
+  </header>
+  <br>
+
+  <h1>CLUBS <i class="fas fa-clover"></i></h1>
+
+  <p>Club life at the University of Adelaide</p>
+  <div class="image-container">
+    <img id="img1" src="https://youx.org.au/pageassets/interests/clubs/Landscape_image.png" alt="Image1">
+    <img id="img2" src="https://youx.org.au/pageassets/membership/join/Website_img_Qcklnk_YouX-1.png" alt="Image2">
+    <img id="img3" src="https://youx.org.au/pageassets/development/volunteer/Web-pics_volunteer_OWeek.png" alt="Image3">
+  </div>
+
+  <br>
+  <div id="adminElements">
+    <button id="create-button" type="button" onclick="window.location.href='create-club.html'">CREATE CLUB</button>
+  </div>
+  <br>
+  <h2>Discover Clubs: <br>
+  </h2>
+
+  <div id="club-list" class="Club-list">
+    <ul id="Club-list">
+      <li v-for="club in clubs"><a :href="getClubLink(club)">{{club.clubname}}</a></li>
+    </ul>
+    <br>
+  </div>
+
+
+  <script>
+    // Function to get data of club members with AJAX
+    function getClublist() {
+      var xhttp = new XMLHttpRequest();
+
+      xhttp.onreadystatechange = function () {
+        if (this.readyState === 4) {
+          if (this.status === 200) {
+            var clubs = JSON.parse(this.responseText);
+            GetClubs(clubs);
+          } else {
+            console.log("Error fetching club data: " + this.status);
+          }
+        }
+      };
+
+
+      var url = `/clubs`;
+      xhttp.open("GET", url, true);
+      xhttp.send();
+    }
+
+    // Function to update the RSVP'd members
+    function GetClubs(clubs) {
+      var Clublist = new Vue({
+        el: '#club-list',
+        data: {
+          clubs: clubs,
+        },
+        methods: {
+          getClubLink: function (club) {
+            return club.clubname.toLowerCase().replace(/\s+/g, '-') + '-club.html';
+          }
+        }
+      });
+    }
+
+    getClublist();
+  </script>
+
+  <br><br><br>
+  <!---Footer -->
+  <footer>
+
+    <div class="address">
+      <div id="north">
+        <p class="campus">North Terrace Campus</p>
+        <p>Level 4 Hub Central, University of Adelaide</p>
+        <p>08 8313 5401</p>
+      </div>
+
+      <div id="waite">
+        <p class="campus">Waite Campus</p>
+        <p>The Hub, McLeod Building</p>
+        <p>08 8313 5401</p>
+      </div>
+
+      <div id="roseworthy">
+        <p class="campus">Roseworthy Campus</p>
+        <p>Room GO1, College Hall</p>
+        <p>08 8313 5401</p>
+      </div>
+    </div>
+
+    <div class="footer-links">
+      <a href="/contact-us">Contact Us</a>
+      <a href="/terms-conditions">Terms and Conditions</a>
+    </div>
+    <div class="social-links">
+      <a href="https://www.facebook.com/uniofadelaide/"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://twitter.com/UniofAdelaide?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"><i class="fab fa-twitter"></i></a>
+    </div>
+
+
+  </footer>
+</body>
+
+
+</html>

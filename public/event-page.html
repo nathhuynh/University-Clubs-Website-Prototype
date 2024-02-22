@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="eng">
+
+<head>
+    <!--CSS LINK-->
+    <link rel="stylesheet" type="text/css" href="stylesheets/event-page.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+
+    <!--JS LINK-->
+    <script src="scripts/event-page.js" defer></script>
+
+    <!--Symbols library-->
+    <script src="https://kit.fontawesome.com/979fc57cca.js" crossorigin="anonymous"></script>
+
+    <meta charset="UTF-8">
+    <title>Web Project - Event Page</title>
+
+    <script>
+      // redirect to log in if user hasn't signed in
+      function loginCheck() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+          if (this.readyState === 4) {
+            if (this.status === 200) {
+              var response = JSON.parse(this.responseText);
+              var userid = response.userid;
+
+              if (userid === 0) {
+                  // show log IN button
+                  // hide log out
+                  document.getElementById("login-div").style.display = "block";
+                  document.getElementById("logout-div").style.display = "none";
+              } else {
+                  // reverse
+                  document.getElementById("logout-div").style.display = "block";
+                  document.getElementById("login-div").style.display = "none";
+              }
+            } else {
+              console.log("Error getting userid: " + this.status);
+            }
+          }
+        };
+          xhttp.open("GET", '/get-userid', true);
+          xhttp.send();
+      }
+      loginCheck();
+
+      var isAdmin;
+      function adminCheck() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if ((this.readyState === 4) && (this.status === 200)) {
+                        isAdmin = JSON.parse(this.responseText);
+                        if (isAdmin === false) {
+                            document.getElementById("manageusers").style.display = "none";
+                    } else {
+                        console.log("Error checking admin status: " + this.status);
+                    }
+                }
+            };
+            xhttp.open("GET", "/admin-check", true);
+            xhttp.send();
+        }
+
+      adminCheck();
+    </script>
+</head>
+
+<body>
+
+    <header>
+        <div class="page-title">
+          <div class="login-div" id = "login-div">
+            <div class="login-symbol"><button class="login-button" type="button"
+                    onclick="window.location.href='log-in.html'">
+                      <i class="fa fa-sign-in" aria-hidden="true"></i>
+                  </button>
+                  <p id="login-text">Log In</p>
+              </div>
+          </div>
+          <div class="login-div" id = "logout-div">
+              <div class="login-symbol"><button class="login-button" type="button"
+                      onclick="logout()">
+                      <i class="fa fa-sign-out" aria-hidden="true"></i>
+                  </button>
+                  <p id="logout-text">Log Out</p>
+              </div>
+          </div>
+          <br>
+            <h1>Adelaide University Clubs</h1>
+
+        </div>
+
+        <!---Tab with links to connecting pages-->
+        <nav class="nav-tab">
+            <ul>
+              <li><a class="selected-page" href="home.html">HOME</a></li>
+              <li><a href="about.html" onclick>ABOUT</a></li>
+              <li><a href="find-clubs.html">CLUBS</a></li>
+              <li><a href="club-feed.html">YOUR CLUBS</a></li>
+              <li><a href="profile.html">PROFILE</a></li>
+              <li id="manageusers"><a href="manage-users.html">MANAGE USERS</a></li>
+            </ul>
+        </nav>
+
+    </header>
+
+    <main>
+
+      <div class="event-info">
+        <h3 id="event-title" class="event-title">EVENT TITLE</h3>
+        <h4>Event Details</h4>
+        <p>
+          Time: <span id="time"></span><br>
+          Date: <span id="date"></span><br>
+          Location: <span id="location"></span><br>
+          Additional Info: <span id="additional-info"></span>
+        </p>
+      </div>
+
+
+
+    </main>
+
+
+    <button class="RSVP-button" type="button">RSVP</button>
+
+    <div  id="rsvp-list" class="members-list-container">
+        <h4>RSVP'D MEMBERS:</h4>
+        <hr>
+        <ul>
+          <li v-for="member in members" :key="member.userid"> {{ member.firstname }} {{ member.lastname }}</li>
+        </ul>
+      </div>
+    <br><br><br><br><br><br><br><br>
+
+
+    <!---Footer -->
+    <footer>
+        <!----Dark mode toggle-->
+        <!-- <div class="dark-mode">
+            <button type="button" onclick="switchColourMode('stylesheets/club-feed-light.css')">Light mode</button>
+            <button type="button" onclick="switchColourMode('stylesheets/club-feed-dark.css')">Dark mode</button>
+        </div> -->
+
+        <div class="address">
+            <div id="north">
+                <p class="campus">North Terrace Campus</p>
+                <p>Level 4 Hub Central, University of Adelaide</p>
+                <p>08 8313 5401</p>
+            </div>
+
+            <div id="waite">
+                <p class="campus">Waite Campus</p>
+                <p>The Hub, McLeod Building</p>
+                <p>08 8313 5401</p>
+            </div>
+
+            <div id="roseworthy">
+                <p class="campus">Roseworthy Campus</p>
+                <p>Room GO1, College Hall</p>
+                <p>08 8313 5401</p>
+            </div>
+        </div>
+
+        <div class="footer-links">
+            <a href="/contact-us">Contact Us</a>
+            <a href="/terms-conditions">Terms and Conditions</a>
+        </div>
+        <div class="social-links">
+          <a href="https://www.facebook.com/uniofadelaide/"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://twitter.com/UniofAdelaide?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"><i class="fab fa-twitter"></i></a>
+        </div>
+
+
+    </footer>
+    <script>
+  // Make an AJAX request to retrieve event details
+  function getEventDetails() {
+    var eventId = 1; // Dynamically change this
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState === 4 && this.status === 200) {
+        var eventData = JSON.parse(this.responseText)[0]; // Assuming only one event is returned
+
+        function formatDate(date) {
+         return new Date(date).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+      }
+        // Update the HTML content with event details
+        document.getElementById("event-title").textContent = eventData.EventName;
+        document.getElementById("time").textContent = eventData.EventTime;
+        document.getElementById("date").textContent = formatDate(eventData.EventDate);
+        document.getElementById("location").textContent =  eventData.EventLocation;
+        document.getElementById("additional-info").textContent =  eventData.Content;
+      }
+    };
+
+    xhttp.open("GET", "/geteventdetail?EventId=" + eventId, true);
+    xhttp.send();
+  }
+
+    // Call the function to load event details when the page is loaded
+    window.onload = getEventDetails;
+
+  // Function to get data of club members with AJAX
+  function getMembers() {
+        var xhttp = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = function() {
+          if (this.readyState === 4) {
+            if (this.status === 200) {
+              var members = JSON.parse(this.responseText);
+              updateRSVPMembers(members);
+            } else {
+              console.log("Error fetching member data: " + this.status);
+            }
+          }
+        };
+
+        var postId = 1; // Replace 1 with the actual postid value
+        var url = `/rsvpdlist?postid=` + postId;
+        xhttp.open("GET", url, true);
+        xhttp.send();
+      }
+
+      // Function to update the RSVP'd members
+      function updateRSVPMembers(members) {
+        var rsvpList = new Vue({
+          el: '#rsvp-list',
+          data: {
+            members: members,
+          },
+        });
+      }
+
+      getMembers();
+    </script>
+
+
+
+</body>
+
+</html>

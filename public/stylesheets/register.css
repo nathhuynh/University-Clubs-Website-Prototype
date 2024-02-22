@@ -1,0 +1,48 @@
+h1{
+    text-align: center;
+    color: #FACCE7 ;
+    font-size: 70px;
+    
+}
+  
+h2 {
+    text-align: center;
+    font-size: 35px;
+  
+  }
+
+
+body {
+    font-family: sans-serif; 
+    text-align: center;
+    font-size: 15px;
+    
+}
+
+p{
+    text-align: center;
+    color: #FACCE7 ;
+}
+
+header, footer {
+    padding: 2em;
+    background-color: #FACCE7;
+    position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 20px;
+      z-index: 999;
+}
+
+.return-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    
+  }
+
+  .left{
+    font-family: sans-serif;
+    font-weight: bold;
+  }

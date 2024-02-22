@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="eng">
+
+<head>
+    <!--CSS LINK-->
+    <link rel="stylesheet" type="text/css" href="stylesheets/new-dark.css">
+
+    <!--JS LINK-->
+    <script src="scripts/contact-us-script.js" defer></script>
+
+    <!--Symbols library-->
+    <script src="https://kit.fontawesome.com/979fc57cca.js" crossorigin="anonymous"></script>
+
+    <meta charset="UTF-8">
+    <title>Web Project - Create new club</title>
+
+    <script>
+        var isAdmin;
+
+        // admin check
+        function adminCheck() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState === 4) {
+                    if (this.status === 200) {
+                        isAdmin = JSON.parse(this.responseText);
+
+                        // testing w/o the details of the current session
+                        isAdmin = true;
+
+
+                        if (isAdmin === true) {
+                            console.log("The current user is an admin");
+                            document.getElementById("adminElements").style.display = "block";
+                            document.getElementById("noAccess").style.display = "none";
+                        } else {
+                            document.getElementById("manageusers").style.display = "none";
+                            console.log("The current user is NOT an admin");
+                            document.getElementById("adminElements").style.display = "none";
+                            document.getElementById("noAccess").style.display = "block";
+                        }
+                    } else {
+                        console.log("Error checking admin status: " + this.status);
+                    }
+                }
+            };
+            xhttp.open("GET", "/admin-check", true);
+            xhttp.send();
+        }
+
+        adminCheck();
+    </script>
+
+    <script>
+        // redirect to log in if user hasn't signed in
+        function loginCheck() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState === 4) {
+            if (this.status === 200) {
+                var response = JSON.parse(this.responseText);
+                var userid = response.userid;
+
+                if (userid === 0) {
+                    // show log IN button
+                    // hide log out
+                    document.getElementById("login-div").style.display = "block";
+                    document.getElementById("logout-div").style.display = "none";
+                } else {
+                    // reverse
+                    document.getElementById("logout-div").style.display = "block";
+                    document.getElementById("login-div").style.display = "none";
+                }
+            } else {
+                console.log("Error getting userid: " + this.status);
+            }
+            }
+        };
+            xhttp.open("GET", '/get-userid', true);
+            xhttp.send();
+        }
+        loginCheck();
+    </script>
+</head>
+
+<body>
+    <header>
+        <div class="page-title">
+            <div class="login-div" id = "login-div">
+                <div class="login-symbol"><button class="login-button" type="button"
+                        onclick="window.location.href='log-in.html'">
+                        <i class="fa fa-sign-in" aria-hidden="true"></i>
+                    </button>
+                    <p id="login-text">Log In</p>
+                </div>
+            </div>
+            <div class="login-div" id = "logout-div">
+                <div class="login-symbol"><button class="login-button" type="button"
+                        onclick="logout()">
+                        <i class="fa fa-sign-out" aria-hidden="true"></i>
+                    </button>
+                    <p id="logout-text">Log Out</p>
+                </div>
+            </div>
+            <br>
+            <h1>Adelaide University Clubs</h1>
+
+        </div>
+
+        <!---Tab with links to connecting pages-->
+        <nav class="nav-tab">
+            <ul>
+                <li><a class="selected-page" href="home.html">HOME</a></li>
+                <li><a href="about.html" onclick>ABOUT</a></li>
+                <li><a href="find-clubs.html">CLUBS</a></li>
+                <li><a href="club-feed.html">YOUR CLUBS</a></li>
+                <li><a href="profile.html">PROFILE</a></li>
+                <li id="manageusers"><a href="manage-users.html">MANAGE USERS</a></li>
+            </ul>
+        </nav>
+
+        <br>
+
+    </header>
+
+    <div id="noAccess">Access denied. Need admin permissions!</div>
+    <div id="adminElements">
+        <h2>Create a new club</h2>
+        <!---New post form-->
+        <form class="new-event" action="#" method="post">
+            <!-- Other boxes in the form -->
+            <label for="title">Club name:</label>
+            <input type="text" id="title" name="title" required>
+            <br>
+
+            <label for="info">Club description:</label>
+            <textarea id="info" name="info" required></textarea>
+            <br>
+
+            <button type="button" onclick="createClub()">Create</button>
+        </form>
+    </div>
+
+    <br><br><br><br><br><br><br>
+
+
+    <!---Footer -->
+    <footer>
+        <!----Dark mode toggle-->
+        <!-- <div class="dark-mode">
+            <button type="button" onclick="switchColourMode('stylesheets/new-light.css')">Light mode</button>
+            <button type="button" onclick="switchColourMode('stylesheets/new-dark.css')">Dark mode</button>
+        </div> -->
+
+        <div class="address">
+            <div id="north">
+                <p class="campus">North Terrace Campus</p>
+                <p>Level 4 Hub Central, University of Adelaide</p>
+                <p>08 8313 5401</p>
+            </div>
+
+            <div id="waite">
+                <p class="campus">Waite Campus</p>
+                <p>The Hub, McLeod Building</p>
+                <p>08 8313 5401</p>
+            </div>
+
+            <div id="roseworthy">
+                <p class="campus">Roseworthy Campus</p>
+                <p>Room GO1, College Hall</p>
+                <p>08 8313 5401</p>
+            </div>
+        </div>
+
+        <div class="footer-links">
+            <a href="/contact-us">Contact Us</a>
+            <a href="/terms-conditions">Terms and Conditions</a>
+        </div>
+        <div class="social-links">
+            <a href="https://www.facebook.com/uniofadelaide/"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://twitter.com/UniofAdelaide?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"><i class="fab fa-twitter"></i></a>
+        </div>
+
+
+    </footer>
+
+    <script>
+        function generateClub() {
+
+            var clubName = document.getElementById("title").value;
+            var clubDesc = document.getElementById("info").value;
+            // var clubName = document.getElementById("category").textContent;
+
+            var data = {
+                clubname: clubName,
+                clubdescription: clubDesc
+            };
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState === 4) {
+                    if (this.status === 200) {
+                        console.log("Generated club page successfully!");
+                    } else {
+                        console.log("Error generating club page: " + this.status);
+                    }
+                }
+            };
+
+            xhttp.open("POST", "/generateClub", true);
+            xhttp.setRequestHeader("Content-type", "application/json");
+            xhttp.send(JSON.stringify(data));
+        }
+
+
+        // function to send new club details to the club table in the database
+        function createClub() {
+
+            var clubName = document.getElementById("title").value;
+            var clubDesc = document.getElementById("info").value;
+            // var clubName = document.getElementById("category").textContent;
+
+            var data = {
+                clubname: clubName,
+                clubdescription: clubDesc
+            };
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState === 4) {
+                    if (this.status === 200) {
+                        console.log("Club create successfully!");
+                        // generateClub();
+
+                        var url = clubName.toLowerCase().replace(/\s+/g, '-') + '-club.html';
+
+                        // redirect to new club page
+                        window.location.href = url;
+                    } else {
+                        console.log("Error creating club: " + this.status);
+                    }
+                }
+            };
+
+            xhttp.open("POST", "/create-club", true);
+            xhttp.setRequestHeader("Content-type", "application/json");
+            xhttp.send(JSON.stringify(data));
+        }
+    </script>
+</body>
+
+</html>

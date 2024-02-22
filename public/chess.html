@@ -1,0 +1,521 @@
+<!--- Needs testing/implementation of the club's posts/events -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>
+    Chess Club
+  </title>
+  <link rel="stylesheet" href="stylesheets/standard-club-visitor-DARK.css">
+  <script src="https://kit.fontawesome.com/186d59e9ab.js" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+
+<body>
+  <header>
+    <div class="logo">YouX</div>
+    <div class="left">
+      <button type="button" class="home-button" onclick="window.location.href='home.html'" aria-label="Home">
+        <i class="fas fa-home"></i>
+      </button>
+    </div>
+    <div class="right">
+      <span>
+        <button type="button" class="search-button" onclick="handleSearch()" aria-label="search">
+          <i class="fas fa-search"></i></button>
+        <button type="button" class="user-button" onclick="" aria-label="user"><i class="fas fa-user"></i>
+        </button>
+        <button type="button" class="menu-button" onclick="" aria-label="menu">
+          <i class="fas fa-bars"></i></button>
+      </span>
+    </div>
+
+  </header>
+  <br>
+  <br>
+  <div class="club-container">
+    <img
+      src="https://youx.org.au/asset/Organisation/8456/chess%20club.jpg?thumbnail_width=375&thumbnail_height=375&resize_type=CropToFit"
+      alt="Chessclublogo">
+    <h1 id="clubTitle">Deleted</h1>
+  </div>
+
+  <div id="information">
+    <div class="admin-actions">
+      <!-- <button type="button" class="edit-button" onclick="editToggle('clubTitle')"> -->
+      <button type="button" class="edit-button" onclick="editInfo()">
+        <i class="fa-solid fa-pen"></i>
+      </button>
+      <button type="button" class="delete-button" onclick="deleteClub()">
+        <i class="fa fa-trash" aria-hidden="true"></i>
+      </button>
+    </div>
+    <h3>About us</h3>
+    <p id="clubDescription"></p>
+    <br>
+  </div>
+  <div class="actions">
+    <button type="button" id="joinButton" class="join-button" onclick="joinClub(1)">Join Us!</button>
+    <button type="button" class="contact-button" onclick="location.href='contact-us.html'">Contact Club</button>
+    <button type="button" id="notification-button" class="notification-button" onclick="enableEmails()">Enable
+      Emails</button>
+  </div>
+
+  <!-- Latest Updates -->
+  <br>
+  <h3 id="updates-title">Latest Updates</h3>
+
+  <!---Require this whole div for display update to work-->
+  <div class="updates-container">
+    <div class="update">
+      <h4 id="post-title">Title</h4>
+      <p class="timestamp">Posted on <span id="timestamp"></span></p>
+      <p class="Post-content">...</p>
+      <hr>
+    </div>
+  </div>
+  <!--------------------------------------------------------->
+
+  <!---Require this whole div for display event to work-->
+  <h3 id="events-title">Upcoming events</h3>
+  <div class="events-container">
+    <div class="event">
+      <h4 id="event-name">Event Title 1</h4>
+      <p class="eventtime">Time and date: <span id="time"></span>, <span id="date"></span></p>
+      <p class="location">Location: <span id="eventlocation"></span></p>
+      <p class="Event-detail">Event information goes here...</p>
+      <hr>
+    </div>
+  </div>
+
+<!--------------------------------------------------------->
+  <script>
+
+     //GET POST FUNCTION FROM DATABASE
+    //client send clubid = 1
+
+ $(document).ready(function() {
+      //using ajax and
+      function GETPosts(clubid) {
+      $.ajax({
+        url: `/posts?clubid=`+clubid,
+        type: 'GET',
+        success: function(response) {
+          console.log('Posts retrieved successfully');
+          displayPosts(response);
+        },
+        error: function(xhr, status, error) {
+          console.log('Error retrieving posts:', error);
+        }
+      });
+    }
+
+    //FUNCTION TO UPDATE POSTS AND DISPLAY IN CONTAINER
+    function displayPosts(posts) {
+      var container = $('.updates-container');
+      container.empty(); // Clear existing posts
+
+      //get latest 4 posts
+      var latestposts = posts.slice(-6);
+      latestposts.reverse();
+
+      latestposts.forEach(function(post) {
+        var updateElement = $('<div class="update"></div>'); //for each update div
+        updateElement.append('<h4 id="post-title">' + post.posttitle + '</h4>'); //Update post title
+        updateElement.append('<p class="timestamp">Posted on <span id="timestamp">' +
+        new Date(post.dateandtime).toLocaleString() +
+        '</span></p>'); //Update timestamp
+        updateElement.append('<p class="Post-content">' + post.content + '</p>'); //Update post content
+        updateElement.append('<hr>');
+        container.append(updateElement);
+      });
+    }
+
+    var clubID = 1; //ClubID of chess club
+    GETPosts(clubID);
+    });
+
+    //GET EVENTS FROM DATABASE
+    $(document).ready(function() {
+      // Using AJAX to retrieve events
+      function getEvents(clubid) {
+        $.ajax({
+          url: '/events?clubid=' + clubid,
+          type: 'GET',
+          success: function(response) {
+            console.log('Events retrieved successfully');
+            displayEvents(response);
+          },
+          error: function(xhr, status, error) {
+            console.log('Error retrieving events:', error);
+          }
+        });
+      }
+
+      // Function to update events and display in container
+      function displayEvents(events) {
+        var container = $('.events-container');
+        container.empty(); // Clear existing events
+
+        var latestevents = events.slice(-6);
+      latestevents.reverse();
+      //format time
+      function formatDate(date) {
+         return new Date(date).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+      }
+
+        latestevents.forEach(function(event) {
+          var eventElement = $('<div class="event"></div>'); // Create event div
+          eventElement.append('<h4 id="event-name">' + event.EventName + '</h4>'); // Update event name
+          eventElement.append('<p class="eventtime">Time and date: <span id="time">' + event.EventTime + '</span>, <span id="date">' + formatDate(event.EventDate) + '</span></p>');
+          eventElement.append('<p class="location">Location: <span id="eventlocation">' + event.EventLocation + '</span></p>'); // Update location
+          eventElement.append('<p class="Event-detail">' + event.Content + '</p>'); // Update event detail
+          eventElement.append('<hr>');
+          container.append(eventElement);
+        });
+      }
+
+      var clubID = 1; // ClubID of chess club
+      getEvents(clubID);
+    });
+
+    var clubTitle = "";
+    var clubDescription = "";
+
+    // function to get the data of the club's info (name, description)
+    function getClubDetails() {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function () {
+        if (this.readyState === 4) {
+          if (this.status === 200) {
+            var response = JSON.parse(this.responseText);
+            clubTitle = response[0].clubname;
+            clubDescription = response[0].clubdescription;
+            console.log(clubTitle, clubDescription);
+            updateDetails(); // call function to display the details on the page
+          } else {
+            console.log("Error fetching club data: " + this.status);
+          }
+        }
+      };
+      var clubId = "1";
+      var url = "/thisclub?clubid=" + clubId;
+      xhttp.open("GET", url, true);
+      xhttp.send();
+    }
+
+    // function to update club name and description
+    function updateDetails() {
+      var newTitle = document.getElementById("clubTitle");
+      var newDescription = document.getElementById("clubDescription");
+
+      newTitle.textContent = clubTitle;
+      newDescription.textContent = clubDescription;
+    }
+
+    // call getClubDetails() when the page finishes loading
+    window.addEventListener("DOMContentLoaded", getClubDetails);
+
+    // function to edit info locally
+    function editInfo() {
+      var titleElement = document.getElementById("clubTitle");
+      var descriptionElement = document.getElementById("clubDescription");
+
+      // make the elements editable
+      titleElement.contentEditable = true;
+      descriptionElement.contentEditable = true;
+
+      // add editable class
+      titleElement.classList.add("editable");
+      descriptionElement.classList.add("editable");
+      titleElement.focus();
+
+      // event listeners to handle saving changes
+      titleElement.addEventListener("blur", function () {
+        saveChanges();
+      });
+      descriptionElement.addEventListener("blur", function () {
+        saveChanges();
+      });
+    }
+
+    // send the edited information to the database
+    function saveChanges() {
+      var titleElement = document.getElementById("clubTitle");
+      var descriptionElement = document.getElementById("clubDescription");
+      var clubname = titleElement.textContent;
+      var clubdescription = descriptionElement.textContent;
+      var clubid = "1";
+
+      // struct to hold the new data
+      var data = {
+        clubname: clubname,
+        clubdescription: clubdescription,
+        clubid: clubid
+      };
+
+      // send the data to the database using AJAX
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function () {
+        if (this.readyState === 4) {
+          if (this.status === 200) {
+            console.log("Club information updated successfully");
+          } else {
+            console.error("Error updating club information: " + this.status);
+          }
+        }
+      };
+
+      xhttp.open("POST", "/editclub", true);
+      xhttp.setRequestHeader("Content-Type", "application/json");
+      xhttp.send(JSON.stringify(data));
+    }
+
+    // function to edit info of club (name, description)
+    function editClubInfo() {
+      var xhttp = new XMLHttpRequest();
+
+      xhttp.onreadystatechange = function () {
+        if (this.readyState === 4) {
+          if (this.status === 200) {
+            console.log("Edited Club Info!");
+            editInfo();
+            updateDetails(); // call function to display the details on the page
+          } else {
+            console.log("Error editing club info: " + this.status);
+          }
+        }
+      };
+
+      var clubId = "1";
+      var url = "/editclub?clubid=" + clubId;
+      xhttp.open("POST", url, true);
+      xhttp.send();
+    }
+
+
+    // function to get data of club members with AJAX
+    function getMembers() {
+      var xhttp = new XMLHttpRequest();
+
+      xhttp.onreadystatechange = function () {
+        if (this.readyState === 4) {
+          if (this.status === 200) {
+            var members = JSON.parse(this.responseText);
+            generateMemberList(members);
+          } else {
+            console.log("Error fetching member data: " + this.status);
+          }
+        }
+      };
+
+      var clubId = "1";
+      var url = "/clubmembers?clubid=" + clubId;
+      xhttp.open("GET", url, true);
+      xhttp.send();
+    }
+
+    // function to generate the list of members
+    function generateMemberList(members) {
+      var listContainer = document.getElementById("memberList");
+      listContainer.innerHTML = ""; // Clear existing list
+
+      members.forEach(function (member) {
+        var fullName = member.firstname + " " + member.lastname;
+        var item = document.createElement("li");
+
+        // manager tag
+        if (member.memberrole === 'manager') {
+          fullName += " (manager)";
+        }
+
+        item.textContent = fullName;
+
+        // promote to manager button
+        var promoteButton = document.createElement("button");
+        promoteButton.classList.add("promote-button");
+        promoteButton.textContent = "Promote";
+        promoteButton.addEventListener("click", function () {
+          giveManager(member.firstname, member.lastname);
+        });
+
+        // kick button
+        var kickButton = document.createElement("button");
+        kickButton.classList.add("kick-button");
+        kickButton.textContent = "Kick";
+        kickButton.addEventListener("click", function () {
+          kickMember(member.firstname, member.lastname);
+        });
+
+        item.appendChild(promoteButton);
+        item.appendChild(kickButton);
+        listContainer.appendChild(item);
+      });
+    }
+
+    // Club manager/System admin: function to kick a member from members list
+    function kickMember(firstname, lastname) {
+      var clubId = "1";
+      var data = {
+        clubId: clubId,
+        firstname: firstname,
+        lastname: lastname
+      };
+
+      // send the data (clubid and name of member) using AJAX
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function () {
+        if (this.readyState === 4) {
+          if (this.status === 200) {
+            console.log("Member kicked successfully");
+            // update members list
+            getMembers();
+          } else {
+            console.error("Error kicking member: " + this.status);
+          }
+        }
+      };
+
+      xhttp.open("POST", "/kickMember", true);
+      xhttp.setRequestHeader("Content-Type", "application/json");
+      xhttp.send(JSON.stringify(data));
+    }
+
+    // Club manager/System admin: function to promote a member to a manager role
+    function giveManager(firstname, lastname) {
+      var clubId = "1";
+      var data = {
+        clubId: clubId,
+        firstname: firstname,
+        lastname: lastname
+      };
+
+      // send the data (clubid and name of member) using AJAX
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function () {
+        if (this.readyState === 4) {
+          if (this.status === 200) {
+            console.log("Promoted to manager successfully");
+            // update members list
+            getMembers();
+          } else {
+            console.error("Error promoting member: " + this.status);
+          }
+        }
+      };
+
+      xhttp.open("POST", "/giveManager", true);
+      xhttp.setRequestHeader("Content-Type", "application/json");
+      xhttp.send(JSON.stringify(data));
+    }
+
+    getMembers();
+
+
+    // function to join the club with AJAX
+    function joinClub(clubid) {
+      var xhttp = new XMLHttpRequest();
+
+      xhttp.onreadystatechange = function () {
+        if (this.readyState === 4) {
+          if (this.status === 200) {
+            console.log("Joined club successfully!");
+            getMembers();
+            joinedButton();
+          } else {
+            console.log("Error joining club: " + this.status);
+          }
+        }
+      };
+
+      var clubId = "1";
+      var url = "/membershipapplication?clubid=" + clubId;
+      xhttp.open("POST", url, true);
+      xhttp.send();
+    }
+
+    function joinedButton() {
+      var newButton = document.getElementById("joinButton");
+      newButton.textContent = "Joined";
+    }
+
+
+    // function to check the membership status and update the button text
+    function checkMembership() {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function () {
+        if (this.readyState === 4) {
+          if (this.status === 200) {
+            var membershipStatus = JSON.parse(this.responseText);
+            if (membershipStatus === "JOINED") {
+              joinedButton();
+            }
+          } else {
+            console.log("Error checking membership status: " + this.status);
+          }
+        }
+      };
+
+      var clubId = "1";
+      var url = "/checkmembership?clubid=" + clubId;
+      xhttp.open("GET", url, true);
+      xhttp.send();
+    }
+
+    // function to opt into email notifications for the club
+    function enableEmails() {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function () {
+        if (this.readyState === 4) {
+          if (this.status === 200) {
+            console.log("User opted in for email notifications");
+          } else {
+            console.log("Error opting in for email notifications: " + this.status);
+          }
+        }
+      };
+      var clubId = "1";
+      var url = "/enable-emails?clubid=" + clubId;
+      xhttp.open("GET", url, true);
+      xhttp.send();
+    }
+
+    checkMembership();
+
+    // function for system admins to delete club from database
+    function deleteClub() {
+      var clubId = "1";
+
+      // confirmation
+      var confirmation = confirm("WARNING: Deletion of club is irreversible!");
+
+      if (confirmation) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+          if (this.readyState === 4) {
+            if (this.status === 200) {
+              console.log("Club deleted");
+              // redirect to club list page
+              window.location.href = "/find-clubs.html";
+            } else {
+              console.error("Error deleting club: " + this.status);
+            }
+          }
+        };
+
+        var url = "/deleteclub/" + clubId;
+        xhttp.open("DELETE", url, true);
+        xhttp.send();
+      }
+    }
+
+    // need to modify: delete html page + remove from club list
+
+  </script>
+</body>
+
+
+
+</html>

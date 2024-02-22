@@ -1,0 +1,193 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+}
+
+h2 {
+    text-align: center;
+}
+
+/*********** Page title + Login button /************/
+
+.page-title {
+    text-align: left;
+    background-color: #FACCE7;
+    padding: 50px 0;
+}
+
+#logo-image {
+    float: left;
+    width: 75px;
+    height: auto;
+}
+
+#login-text {
+    font-size: 70%;
+    font-weight: bold;
+}
+
+.login-div {
+    background-color: #FACCE7;
+    float: right;
+}
+
+.login-div button {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    font-size: 200%;
+}
+
+h1 {
+    margin: 10px;
+    color: white;
+}
+
+
+/*********** Navigation tab/************/
+
+.nav-tab {
+    z-index: 100;
+    /* bring to the front */
+    background-color: #FACCE7;
+    border-bottom: 2px solid white;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+
+.nav-tab li {
+    float: left;
+    border-right: 2px solid white;
+}
+
+.nav-tab a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.nav-tab ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+}
+
+.nav-tab a:hover {
+    background-color: #b8b8b8;
+    color: black;
+}
+
+/** Selected page has white text instead of black **/
+.selected-page {
+    color: white !important;
+}
+
+.about-links {
+    color: #FACCE7;
+    font-size: large;
+}
+
+/*********** Search bar and list of users /************/
+.search-div {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+table {
+    border-collapse: collapse;
+    width: 50%;
+}
+
+table th,
+table td {
+    padding: 10px 10px;
+}
+
+table th{
+    text-align: left;
+}
+
+.delete-user-button{
+    background-color: transparent;
+    border: 1px solid black;
+    font-size: 20px;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.edit-user-button{
+    background-color: transparent;
+    border: 1px solid black;
+    font-size: 20px;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.upgrade-user-button{
+    background-color: transparent;
+    border: 1px solid black;
+    font-size: 20px;
+    border-radius: 5px;
+}
+
+.delete-user-button:hover{
+    background-color: #b8b8b8;
+}
+
+.edit-user-button:hover{
+    background-color: #b8b8b8;
+}
+
+.upgrade-user-button:hover{
+    background-color: #b8b8b8;
+}
+
+/*********** Edit user information form /************/
+#edit-user-form {
+    margin-bottom: 30px;
+}
+
+
+/*********** Footer/************/
+footer {
+    position: relative;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #FACCE7;
+    color: white;
+    padding: 20px;
+}
+
+.campus {
+    text-decoration: underline;
+}
+
+.address {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#north,
+#waite,
+#roseworthy {
+    width: 33.33%;
+}
+
+.social-links {
+    float: right;
+}

@@ -1,0 +1,147 @@
+h1{
+    text-align: left;
+    color: #FACCE7 ;
+    font-size: 50px;
+    margin-left:  20px;
+    text-decoration: underline;
+    
+}
+h2{
+    color: #FACCE7 ;
+    font-size: 30px;
+    text-align: left;
+}
+body {
+    font-family: sans-serif; 
+    font-size: 20px; 
+}
+
+p{
+    font-size: 15px;;
+}
+
+
+.logo{
+    font-family: sans-serif; 
+    text-align: center;
+    font-size: 15px;
+    font-size: 50px;
+    font-weight: bold;
+}
+  
+header, footer {
+    padding: 2em;
+    background-color: #FACCE7;
+    position: fixed;
+    color:white;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 5px;
+      z-index: 999;
+}
+.left{
+    font-family: sans-serif;
+    font-weight: bold;
+  }
+
+  .search-button {
+    position: absolute;
+    top: 10px;
+    right: 90px;
+    background-color: #FACCE7;
+    border: none;
+    cursor: pointer;
+  }
+
+  .user-button{
+    position: absolute;
+    top: 10px;
+    right: 60px;
+    background-color: #FACCE7;
+    border: none;
+    cursor: pointer;
+
+  }
+  .menu-button{
+    position: absolute;
+    top: 10px;
+    right: 30px;
+    background-color: #FACCE7;
+    border: none;
+    cursor: pointer;
+
+
+  }
+
+  
+  .home-button{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #FACCE7;
+    border: none;
+    cursor: pointer;
+
+
+  }
+
+  .club-container img{
+    width:  300px;
+    float: left;
+    
+    margin-right: 20px;
+  }
+
+  .club-container h1{
+    text-align: left;
+    color: #FACCE7 ;
+    font-size: 50px;
+    margin-left:  20px;
+    text-decoration: underline;
+  }
+
+  .join-button{
+    top: 10px;
+    left: 10px;
+    background-color: #FACCE7;
+    border: lightpink ;
+    cursor: pointer;
+    font-size: 20px;
+    color: white;
+    padding: 5px;
+    margin-left: 20px;;
+
+
+
+  }
+
+  .contact-button{
+    top: 10px;
+    left: 10px;
+    background-color: #FACCE7;
+    border: lightpink ;
+    cursor: pointer;
+    font-size: 20px;
+    color: white;
+    padding: 5px;
+    margin-left: 20px;;
+
+  }
+
+  
+  
+  #information {
+    position: relative; 
+    padding: 10px; 
+ 
+
+  }
+
+  .club-container {
+    position: relative;
+    width: 200%;
+    height: 300px;
+    padding: 40px;
+    background-color: #f7f7f7;
+  }

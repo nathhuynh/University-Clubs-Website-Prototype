@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="eng">
+
+<head>
+    <!--CSS LINK-->
+    <link rel="stylesheet" type="text/css" href="stylesheets/profile-page-dark.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+
+    <!--JS LINK-->
+    <script src="scripts/home-page-script.js" defer></script>
+
+    <!--Symbols library-->
+    <script src="https://kit.fontawesome.com/979fc57cca.js" crossorigin="anonymous"></script>
+
+    <meta charset="UTF-8">
+    <title>Web Project - Profile Page</title>
+
+    <script>
+        // redirect to log in if user hasn't signed in
+        function getUserId() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState === 4) {
+                    if (this.status === 200) {
+                        var response = JSON.parse(this.responseText);
+                        var userid = response.userid;
+
+                        if (userid === 0) {
+                            window.location.href = "log-in.html";
+                        } else {
+                            console.log("Current userid:", userid);
+                        }
+                    } else {
+                        console.log("Error getting userid: " + this.status);
+                    }
+                }
+            };
+
+            xhttp.open("GET", '/get-userid', true);
+            xhttp.send();
+        }
+        getUserId();
+
+    </script>
+
+<script>
+    // redirect to log in if user hasn't signed in
+    function loginCheck() {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function () {
+        if (this.readyState === 4) {
+          if (this.status === 200) {
+            var response = JSON.parse(this.responseText);
+            var userid = response.userid;
+
+            if (userid === 0) {
+                // show log IN button
+                // hide log out
+                document.getElementById("login-div").style.display = "block";
+                document.getElementById("logout-div").style.display = "none";
+            } else {
+                // reverse
+                document.getElementById("logout-div").style.display = "block";
+                document.getElementById("login-div").style.display = "none";
+            }
+          } else {
+            console.log("Error getting userid: " + this.status);
+          }
+        }
+      };
+        xhttp.open("GET", '/get-userid', true);
+        xhttp.send();
+    }
+    loginCheck();
+
+
+
+    var isAdmin;
+
+        function adminCheck() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if ((this.readyState === 4) && (this.status === 200)) {
+                        isAdmin = JSON.parse(this.responseText);
+                        if (isAdmin === false) {
+                            document.getElementById("manageusers").style.display = "none";
+                    } else {
+                        console.log("Error checking admin status: " + this.status);
+                    }
+                }
+            };
+            xhttp.open("GET", "/admin-check", true);
+            xhttp.send();
+        }
+
+        adminCheck();
+
+  </script>
+</head>
+
+<body>
+
+    <header>
+        <div class="page-title">
+            <div class="login-div" id = "login-div">
+                <div class="login-symbol"><button class="login-button" type="button"
+                        onclick="window.location.href='log-in.html'">
+                        <i class="fa fa-sign-in" aria-hidden="true"></i>
+                    </button>
+                    <p id="login-text">Log In</p>
+                </div>
+            </div>
+            <div class="login-div" id = "logout-div">
+                <div class="login-symbol"><button class="login-button" type="button"
+                        onclick="logout()">
+                        <i class="fa fa-sign-out" aria-hidden="true"></i>
+                    </button>
+                    <p id="logout-text">Log Out</p>
+                </div>
+            </div>
+            <br>
+            <h1>PROFILE SETTINGS</h1>
+
+        </div>
+
+        <!---Tab with links to connecting pages-->
+        <nav class="nav-tab">
+            <ul>
+                <li><a class="selected-page" href="home.html">HOME</a></li>
+                <li><a href="about.html" onclick>ABOUT</a></li>
+                <li><a href="find-clubs.html">CLUBS</a></li>
+                <li><a href="club-feed.html">YOUR CLUBS</a></li>
+                <li><a href="profile.html">PROFILE</a></li>
+                <li id="manageusers"><a href="manage-users.html">MANAGE USERS</a></li>
+
+            </ul>
+        </nav>
+
+    </header>
+
+    <br>
+
+    <main>
+        <!-- <p id="name">Placeholder Name</p>
+        <p id="email">placeholder@email.com</p> -->
+        <br><br>
+        <div class="settings">
+            <div class="username-div">
+                <strong>Change name</strong>
+                <form>
+                    <label for="new-name">Change your name:</label>
+                    <input type="text" id="new-name" name="new-name" minlength="3" required>
+                    <br><br>
+                    <button class="save-button" type="submit" onclick="changeName()">Save</button>
+
+                </form>
+            </div>
+            <div class="password-div">
+                <strong>Change password</strong>
+                <form>
+                    <label for="new-password">New Password:</label>
+                    <input type="password" id="new-password" name="new-password" minlength="10" required>
+                    <br><br>
+                    <button class="save-button" type="submit" onclick="changePassword()">Save</button>
+                </form>
+            </div>
+            <div class="email-div">
+                <strong>Change email</strong>
+                <form>
+                    <label for="new-email">New email:</label>
+                    <input type="email" id="new-email" name="new-email" minlength="10" required>
+                    <br><br>
+                    <button class="save-button" type="submit" onclick="changeEmail()">Save</button>
+                    <br>
+                    <br>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <br><br>
+
+    <!---Footer -->
+    <footer>
+        <!----Dark mode toggle-->
+        <!-- <div class="dark-mode">
+            <button type="button" onclick="switchColourMode('stylesheets/profile-page-light.css')">Light mode</button>
+            <button type="button" onclick="switchColourMode('stylesheets/profile-page-dark.css')">Dark mode</button>
+        </div> -->
+
+        <div class="address">
+            <div id="north">
+                <p class="campus">North Terrace Campus</p>
+                <p>Level 4 Hub Central, University of Adelaide</p>
+                <p>08 8313 5401</p>
+            </div>
+
+            <div id="waite">
+                <p class="campus">Waite Campus</p>
+                <p>The Hub, McLeod Building</p>
+                <p>08 8313 5401</p>
+            </div>
+
+            <div id="roseworthy">
+                <p class="campus">Roseworthy Campus</p>
+                <p>Room GO1, College Hall</p>
+                <p>08 8313 5401</p>
+            </div>
+        </div>
+
+        <div class="footer-links">
+            <a href="/contact-us">Contact Us</a>
+            <a href="/terms-conditions">Terms and Conditions</a>
+        </div>
+        <div class="social-links">
+            <a href="https://www.facebook.com/uniofadelaide/"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://twitter.com/UniofAdelaide?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"><i class="fab fa-twitter"></i></a>
+        </div>
+
+
+    </footer>
+
+    <script>
+        // retrieve the profile details for the current session
+        function getUserInfo() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState === 4) {
+                    if (this.status === 200) {
+                        var response = JSON.parse(this.responseText);
+                        if (response.length > 0) {
+                            var user = response[0];
+                            var firstname = user.firstname;
+                            var lastname = user.lastname;
+                            var email = user.email;
+
+                            // populate the html tags
+                            var fullName = firstname + " " + lastname;
+                            document.getElementById("name").textContent = fullName;
+                            document.getElementById("email").textContent = email;
+                        } else {
+                            console.log("User information not found");
+                        }
+                    } else {
+                        console.log("Error getting user information: " + this.status);
+                    }
+                }
+            };
+
+            xhttp.open("GET", "/users/userprofile", true);
+            xhttp.send();
+        }
+
+        getUserInfo();
+
+        function changeEmail() {
+
+            var newEmail = document.getElementById("new-email").value;
+
+            var data = {
+                userid: "2",
+                email: newEmail
+            };
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState === 4) {
+                    if (this.status === 200) {
+                        console.log("Email changed successfully!");
+                        getUserInfo();
+                    } else {
+                        console.log("Error changing email: " + this.status);
+                    }
+                }
+            };
+
+            xhttp.open("POST", "/change-email", true);
+            xhttp.setRequestHeader("Content-type", "application/json");
+            xhttp.send(JSON.stringify(data));
+        }
+
+        function changePassword() {
+
+            var newPassword = document.getElementById("new-password").value;
+
+            var data = {
+                userid: "2",
+                pass: newPassword
+            };
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState === 4) {
+                    if (this.status === 200) {
+                        console.log("Password changed successfully!");
+                        getUserInfo();
+                    } else {
+                        console.log("Error changing password: " + this.status);
+                    }
+                }
+            };
+
+            xhttp.open("POST", "/change-password", true);
+            xhttp.setRequestHeader("Content-type", "application/json");
+            xhttp.send(JSON.stringify(data));
+        }
+
+
+        function changeName() {
+
+            var newName = document.getElementById("new-name").value.split(" ");
+            var firstName = newName[0];
+            var lastName = newName[1];
+
+            var data = {
+                userid: "2",
+                firstname: firstName,
+                lastname: lastName
+            };
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState === 4) {
+                    if (this.status === 200) {
+                        console.log("Name changed successfully!");
+                        getUserInfo();
+                    } else {
+                        console.log("Error changing name: " + this.status);
+                    }
+                }
+            };
+
+            xhttp.open("POST", "/change-name", true);
+            xhttp.setRequestHeader("Content-type", "application/json");
+            xhttp.send(JSON.stringify(data));
+        }
+    </script>
+</body>
+
+</html>
