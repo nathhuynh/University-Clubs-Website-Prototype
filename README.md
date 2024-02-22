@@ -13,13 +13,13 @@
 
 ## Start mysql:
 
-mysql -u root -p
-Enter password: password
+- mysql -u root -p
+- Enter password: password
 
 ## Load the database in:
-mysql -u root -p mydatabase < public/backupFINAL.sql
-Enter password: password
+- mysql -u root -p mydatabase < public/backupFINAL.sql
+- Enter password: password
 
 ## Login with admin permissions
-compsci2207.marker@gmail.com
-password: password
+- compsci2207.marker@gmail.com
+- password: password
